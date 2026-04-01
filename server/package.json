@@ -4,18 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server:start": "node --env-file=.env ./server.mjs",
+    "server:start": "node --env-file=.env -r ts-node/register ./server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
     "openai": "^6.33.0",
+    "ts-node": "^10.9.2",
     "websocket": "^1.0.35",
     "ws": "^8.20.0",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express-fileupload": "^1.5.1",
+    "@types/ws": "^8.18.1"
   }
 }

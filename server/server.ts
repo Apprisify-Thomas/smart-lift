@@ -4,6 +4,7 @@ import OpenAI from "openai";
 import fs from "fs";
 import { z } from "zod";
 import { zodTextFormat } from "openai/helpers/zod";
+import fileUpload from "express-fileupload";
 
 const floorsFile = "./floors.json";
 
@@ -27,6 +28,9 @@ const FloorsSchema = z.object({
 
 const app = express();
 
+app.use(fileUpload());
+//app.use(formData.parse(options));
+
 const wsServer = new WebSocketServer({
   port: 8082,
 });
@@ -35,7 +39,7 @@ wsServer.on("connection", (ws) => {
   console.log("Client connected");
 
   const sendFloorUpdate = () => {
-    var data = JSON.parse(fs.readFileSync(floorsFile));
+    var data = JSON.parse(fs.readFileSync(floorsFile).toString());
     ws.send(JSON.stringify({ type: "floors:update", payload: data.floors }));
   };
 
@@ -53,9 +57,19 @@ wsServer.on("connection", (ws) => {
 });
 
 app.post("/modify", async (req, res) => {
-  await modifyFloorsData(floorsFile, req.query.message);
+  if (req.files && Object.keys(req.files).length !== 0) {
+    console.log("there are files");
+    const uploadedFile = req.files["file"];
 
-  //sendFloorUpdate();
+    //const uploadPath = path.join("./files", uploadedFile.name);
+
+    // uploadedFile.mv(uploadPath, (err) => {
+    //   if (err) return res.status(500).send(err);
+    //   res.send("Datei gespeichert");
+    // });
+  }
+
+  await modifyFloorsData(floorsFile, req.body.message);
 
   res.send("modified");
 });
@@ -64,7 +78,7 @@ app.listen(8083, () => {
   console.log("Server listening on port 8083");
 });
 
-async function modifyFloorsData(filePath, message) {
+async function modifyFloorsData(filePath: string, message: string) {
   const fileStream = fs.createReadStream(filePath);
   const file = await openAIClient.files.create({
     file: fileStream,
@@ -86,11 +100,11 @@ async function modifyFloorsData(filePath, message) {
             type: "input_text",
             text: message,
           },
+          {
+            type: "input_file",
+            file_id: file.id,
+          },
         ],
-      },
-      {
-        role: "user",
-        content: [{ type: "input_file", file_id: file.id }],
       },
     ],
     text: {
