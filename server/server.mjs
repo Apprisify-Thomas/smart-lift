@@ -39,21 +39,25 @@ wsServer.on("connection", (ws) => {
     ws.send(JSON.stringify({ type: "floors:update", payload: data.floors }));
   };
 
-  app.post("/modify", async (req, res) => {
-    await modifyFloorsData(floorsFile, req.query.message);
-
-    sendFloorUpdate();
-
-    res.send("modified");
-  });
-
   ws.on("error", console.error);
 
   sendFloorUpdate();
 
+  fs.watch(floorsFile, () => {
+    sendFloorUpdate();
+  });
+
   ws.on("close", () => {
     console.log("Client disconnected");
   });
+});
+
+app.post("/modify", async (req, res) => {
+  await modifyFloorsData(floorsFile, req.query.message);
+
+  //sendFloorUpdate();
+
+  res.send("modified");
 });
 
 app.listen(8083, () => {
@@ -95,6 +99,7 @@ async function modifyFloorsData(filePath, message) {
   });
 
   fs.writeFileSync(filePath, response.output_text);
+  return response.output_text;
 }
 
 console.log(`Websocket is running on ws://localhost:${wsServer.options.port}`);
