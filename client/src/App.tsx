@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", margin: "0 auto", maxWidth: 500, gap: 5 }}>
-      {floors.map((f, i) => <div key={i} style={{ backgroundColor: "#333", padding: 10 }}>{f.num}<br /><br /> <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {floors.map((f, i) => <div key={i} style={{ backgroundColor: "rgba(66, 66, 66, 0.3)", padding: 10 }}><span style={{ fontSize: 24, fontWeight: 600 }}>{f.num}</span><br /><br /> <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {f.companies.map((c, i) => {
         return <div key={i} style={{ display: "flex", alignItems: "center", justifyContent:"space-between" }}>
           
