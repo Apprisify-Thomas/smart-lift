@@ -1,0 +1,20 @@
+{
+    "floors": [
+        {
+            "num": 1,
+            "companies": [{ "name": "Novastack" }, { "name": "Aetheric AI" }, { "name": "Syncrobase" }, { "name": "Vertexly" }]
+        },
+        {
+            "num": 2,
+            "companies": [{ "name": "Pixel & Prime" }, { "name": "Lumina Media" }, { "name": "Vivid Flow" }, { "name": "Bold Roots" }]
+        },
+        {
+            "num": 3,
+            "companies": [{ "name": "PureLeaf Dynamics" }, { "name": "Urban Bloom" }]
+        },
+        {
+            "num": 4,
+            "companies": [{ "name": "NexStep Consulting" }]
+        }
+    ]
+}
