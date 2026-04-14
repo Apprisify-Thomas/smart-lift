@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css'
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import useWebSocket from "react-use-websocket";
 
 interface SocketAction {
   type: string;
@@ -8,7 +8,7 @@ interface SocketAction {
 }
 
 function App() {
-  const { sendMessage, lastMessage } = useWebSocket("ws://localhost:8082", {
+  const { lastMessage } = useWebSocket("ws://localhost:8082", {
     shouldReconnect: () => {
       return true;
     },
