@@ -5,7 +5,8 @@ export type Floor = {
 
 export type FloorCompany = {
     name: string;
-    logo: string;
+    description?: string;
+    logo?: string;
 }
 
 export type FloorData = {
