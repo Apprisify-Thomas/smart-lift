@@ -2,11 +2,9 @@ import { WebSocketServer } from "ws";
 import express from "express";
 import fs from "fs";
 import cors from "cors";
-import { FloorAction, FloorData } from "./types";
-import { askFloorManager, saveImage } from "./utils";
+import { askFloorManager, saveImage, writeFloorsFile } from "./utils";
 import path from "path";
-
-const FLOORS_FILE = "./floors.json";
+import { FLOORS_FILE } from "./config";
 
 const app = express();
 app.use(cors());
@@ -17,11 +15,6 @@ app.use(express.json({ limit: "5mb" }));
 const wsServer = new WebSocketServer({
   port: 8082,
 });
-
-function writeFloorsFile(writer: (data: FloorData) => FloorData) {
-  var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
-  fs.writeFileSync(FLOORS_FILE, JSON.stringify(writer(data)));
-}
 
 wsServer.on("connection", (ws) => {
   console.log("Client connected");

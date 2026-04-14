@@ -1,0 +1,1 @@
+export const FLOORS_FILE = "./floors.json";

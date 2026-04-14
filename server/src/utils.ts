@@ -3,7 +3,8 @@ import { zodTextFormat } from "openai/helpers/zod";
 import { InterpretedAction } from "./schema";
 import fs from "fs";
 import crypto from "crypto";
-import { FloorAction } from "./types";
+import { FloorAction, FloorData } from "./types";
+import { FLOORS_FILE } from "./config";
 
 const openAIClient = new OpenAI({
   apiKey: process.env.OPEN_AI_APIKEY,
@@ -34,6 +35,13 @@ export async function askFloorManager(command: string) {
   });
 
   return JSON.parse(response.output_text) as FloorAction;
+}
+
+
+
+export function writeFloorsFile(writer: (data: FloorData) => FloorData) {
+  var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
+  fs.writeFileSync(FLOORS_FILE, JSON.stringify(writer(data)));
 }
 
 export function saveImage(base64Image: string) {
