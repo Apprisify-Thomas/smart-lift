@@ -1,13 +1,4 @@
-export type Floor = {
-  num: number;
-  companies: FloorCompany[];
-}
-
-export type FloorCompany = {
-    name: string;
-    description?: string;
-    logo?: string;
-}
+import { Floor } from "@client/types";
 
 export type FloorData = {
   floors: Floor[];

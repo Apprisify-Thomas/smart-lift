@@ -8,6 +8,9 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    "paths": {
+      "@client/*": ["../client/src/*"]
+    }
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules"]
