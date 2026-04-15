@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
-import { InterpretedAction } from "./schema";
+import { ActionSequence, InterpretedAction } from "./schema";
 import fs from "fs";
 import crypto from "crypto";
 import { FloorAction, FloorData } from "./types";
@@ -17,7 +17,7 @@ export async function askFloorManager(command: string) {
       {
         role: "system",
         content:
-          `Act as a floor UI manager. It is allowed for the user to rename a company in a specific floor. The user can also delete or add a new company`,
+          `Act as a floor UI manager. The user is allowed to rename a company in a specific floor, update a company name, delete or add a new company. This should result in a action sequence.`,
       },
       {
         role: "user",
@@ -30,11 +30,11 @@ export async function askFloorManager(command: string) {
       },
     ],
     text: {
-      format: zodTextFormat(InterpretedAction, "action"),
+      format: zodTextFormat(ActionSequence, "actions"),
     },
   });
 
-  return JSON.parse(response.output_text) as FloorAction;
+  return JSON.parse(response.output_text) as FloorAction[];
 }
 
 

@@ -8,17 +8,18 @@ export default function BackgroundAnimation() {
         viewBox="0 0 1080 1920" 
         preserveAspectRatio="none" 
         style={{ 
-            position: "absolute",
+            position: "fixed",
             top: 0,
             left: 0,
+            right: 0,
             bottom: 0,
-            width: "100vh",
-            height: "100%",
+            width: "100vw",
+            height: "100vw",
             opacity: 1,
             zIndex: -1 ,
             transform: "rotate(90deg)",
             filter: "hue-rotate(36deg)",
-            background: "radial-gradient(circle, rgba(0, 60, 202, 0.3) 0%, rgba(0, 60, 202, 0.1) 100%)"
+            // background: "radial-gradient(circle, rgba(0, 60, 202, 0.3) 0%, rgba(0, 60, 202, 0.1) 100%)"
         }}
     >
     <defs />

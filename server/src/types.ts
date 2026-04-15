@@ -4,10 +4,30 @@ export type FloorData = {
   floors: Floor[];
 }
 
-export type FloorAction = {
-  actionType: 'UPDATE' | 'DELETE' | 'ADD';
+export type AddCompanyAction = {
+  type: 'ADD';
   floor: number;
   companyName: string;
-  replacedByName: string;
   image: boolean;
 }
+
+export type UpdateCompanyAction = {
+  type: 'UPDATE';
+  findName: string;
+  replaceWith: string;
+  image: boolean;
+}
+
+export type DeleteCompanyAction = {
+  type: 'DELETE';
+  name: string;
+}
+
+export type MoveCompanyAction = {
+  type: 'MOVE';
+  name: string;
+  fromFloor: number;
+  toFloor: number;
+}
+
+export type FloorAction = AddCompanyAction | UpdateCompanyAction | DeleteCompanyAction | MoveCompanyAction;

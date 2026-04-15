@@ -29,12 +29,12 @@ export default function App() {
     }
   }, [lastMessage]);
 
-  // useEffect(() => {
-  //   const timeout = setInterval(() => {
-  //     setActiveFloor(activeFloor === floors.length ? 1 : activeFloor + 1);
-  //   }, 4000);
-  //   return () => clearTimeout(timeout);
-  // }, [activeFloor, floors]);
+  useEffect(() => {
+    const timeout = setInterval(() => {
+      setActiveFloor(activeFloor === floors.length ? 1 : activeFloor + 1);
+    }, 4000);
+    return () => clearTimeout(timeout);
+  }, [activeFloor, floors]);
 
   function ImageSlide({ floor, path }: { floor: number; path: string }) {
     const styles: CSSProperties = { position: "absolute", width: "100%", filter: "contrast(1) brightness(1.5) saturate(0.75)", opacity: 0  };

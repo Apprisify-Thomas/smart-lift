@@ -46,54 +46,56 @@ app.post("/", async(req, res) => {
     imageFile = saveImage(attachments[0].Content);
   }
 
-  const action = await askFloorManager(message);
+  const actions = await askFloorManager(message);
 
-  switch(action.actionType) {
-    case 'UPDATE':
-      // Update company action 
-      writeFloorsFile((data) => {
-        data.floors = data.floors.map(f => {
-          const foundIndex = f.companies.findIndex((c) => c.name.toLowerCase() === action.companyName.toLowerCase());
+  for(const action of actions) {
+    switch(action.type) {
+        case 'UPDATE':
+          // Update company action 
+          writeFloorsFile((data) => {
+            data.floors = data.floors.map(f => {
+              const foundIndex = f.companies.findIndex((c) => c.name.toLowerCase() === action.findName.toLowerCase());
 
-          if(foundIndex >= 0) {
-            f.companies[foundIndex] = { 
-              ...f.companies[foundIndex], 
-              name: action.replacedByName ? action.replacedByName : f.companies[foundIndex].name, 
-              logo: action.image ? imageFile : "" 
-            }
-          }
+              if(foundIndex >= 0) {
+                f.companies[foundIndex] = { 
+                  ...f.companies[foundIndex], 
+                  name: action.replaceWith ? action.replaceWith : f.companies[foundIndex].name, 
+                  logo: action.image ? imageFile : "" 
+                }
+              }
 
-          return f;
-        });
+              return f;
+            });
 
-        return data;
-      }); 
-    break;
-    case 'ADD':
-      // Add company action
-      writeFloorsFile((data) => {
-        data.floors = data.floors.map(f => {
-          if(action.floor !== 0 && action.floor === f.num) {
-            f.companies.push({ name: action.companyName, logo: action.image ? imageFile : "" });
-          }
+            return data;
+          }); 
+        break;
+        case 'ADD':
+          // Add company action
+          writeFloorsFile((data) => {
+            data.floors = data.floors.map(f => {
+              if(action.floor !== 0 && action.floor === f.num) {
+                f.companies.push({ name: action.companyName, logo: action.image ? imageFile : "" });
+              }
 
-          return f;
-        })
+              return f;
+            })
 
-        return data;
-      });
-      break;
-    case 'DELETE':
-      // Delete company action
-      writeFloorsFile((data) => {
-        data.floors = data.floors.map(f => {
-          f.companies = f.companies.filter(c => c.name.toLowerCase() !== action.companyName.toLowerCase());
+            return data;
+          });
+          break;
+        case 'DELETE':
+          // Delete company action
+          writeFloorsFile((data) => {
+            data.floors = data.floors.map(f => {
+              f.companies = f.companies.filter(c => c.name.toLowerCase() !== action.name.toLowerCase());
 
-          return f;
-        })
+              return f;
+            })
 
-        return data;
-      });
+            return data;
+          });
+      }
   }
 
   res.send("email recieved");
