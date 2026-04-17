@@ -30,7 +30,7 @@ export const UpdateCompanyAction = z.object({
   type: z.literal('UPDATE'),
   findName: z.string(),
   replaceWith: z.string(),
-  image: z.boolean()
+  image: z.boolean().nullable()
 });
 
 export const MoveCompanyAction = z.object({
@@ -40,11 +40,18 @@ export const MoveCompanyAction = z.object({
   toFloor: z.number()
 });
 
+export const ChangeCompanyImage = z.object({
+  type: z.literal('CHANGE_IMAGE'),
+  companyName: z.string(),
+  shouldBeChanged: z.boolean(),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
   DeleteCompanyAction,
-  MoveCompanyAction
+  MoveCompanyAction,
+  ChangeCompanyImage
 ]);
 
 export const ActionSequence = z.object({

@@ -30,4 +30,10 @@ export type MoveCompanyAction = {
   toFloor: number;
 }
 
-export type FloorAction = AddCompanyAction | UpdateCompanyAction | DeleteCompanyAction | MoveCompanyAction;
+export type ChangeImageAction = {
+  type: 'CHANGE_IMAGE';
+  companyName: string;
+  shouldBeChanged: boolean;
+}
+
+export type FloorAction = AddCompanyAction | UpdateCompanyAction | DeleteCompanyAction | MoveCompanyAction | ChangeImageAction;

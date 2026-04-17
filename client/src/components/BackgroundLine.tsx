@@ -12,7 +12,7 @@ export default function BackgroundLine() {
     useGSAP(() => {
         const tl = gsap.timeline();
         const duration = gsap.utils.random(40, 80);
-        const y = gsap.utils.random(-450, 250);
+        const y = gsap.utils.random(-250, 250);
         const rotate = gsap.utils.random(-20, 20);
         const scaleXFrom = gsap.utils.random(2, 2.5);
         const scaleXTo = gsap.utils.random(1.5, 1.75);

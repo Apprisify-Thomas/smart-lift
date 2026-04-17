@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
-import { ActionSequence, InterpretedAction } from "./schema";
+import { ActionSequence } from "./schema";
 import fs from "fs";
 import crypto from "crypto";
 import { FloorAction, FloorData } from "./types";
@@ -17,7 +17,9 @@ export async function askFloorManager(command: string) {
       {
         role: "system",
         content:
-          `Act as a floor UI manager. The user is allowed to rename a company in a specific floor, update a company name, delete or add a new company. This should result in a action sequence.`,
+          `Act as a floor UI manager. The user is allowed to rename a company on a specific floor, 
+          update a company name, delete or add a new company. This should result in a action sequence.
+          Company names should not be modified`,
       },
       {
         role: "user",
@@ -34,10 +36,8 @@ export async function askFloorManager(command: string) {
     },
   });
 
-  return JSON.parse(response.output_text) as FloorAction[];
+  return JSON.parse(response.output_text) as { actions: FloorAction[] };
 }
-
-
 
 export function writeFloorsFile(writer: (data: FloorData) => FloorData) {
   var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
@@ -55,12 +55,12 @@ export function saveImage(base64Image: string) {
 
   if(fs.existsSync(filePath)) {
     console.log('File exists');
-    return `/files/${fileName}`;
+    return `http://localhost:8083/files/${fileName}`;
   }
 
   fs.writeFile(filePath, base64Image, { encoding: 'base64' }, function() {
     console.log('File created');
   });
 
-  return `/files/${fileName}`;
+  return `http://localhost:8083/files/${fileName}`;
 }

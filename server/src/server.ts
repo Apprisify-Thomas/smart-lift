@@ -5,6 +5,7 @@ import cors from "cors";
 import { askFloorManager, saveImage, writeFloorsFile } from "./utils";
 import path from "path";
 import { FLOORS_FILE } from "./config";
+import { FloorCompany } from "@client/types";
 
 const app = express();
 app.use(cors());
@@ -46,21 +47,73 @@ app.post("/", async(req, res) => {
     imageFile = saveImage(attachments[0].Content);
   }
 
-  const actions = await askFloorManager(message);
+  const answer = await askFloorManager(message);
 
-  for(const action of actions) {
+  console.log(answer);
+  
+
+  for(const action of answer.actions) {
     switch(action.type) {
+        case 'CHANGE_IMAGE':
+          writeFloorsFile((data) => {
+            data.floors = data.floors.map(f => {
+              const foundIndex = f.companies.findIndex((c) => c.name.toLowerCase().includes(action.companyName.toLowerCase()));
+
+              if(foundIndex >= 0) {
+                if(action.shouldBeChanged) {
+                  f.companies[foundIndex].logo = imageFile;
+                } else {
+                  f.companies[foundIndex].logo = "";
+                }
+              }
+
+              return f;
+            });
+
+            return data;
+          })
+        break;
+        case 'MOVE':
+          writeFloorsFile((data) => {
+            let company: FloorCompany;
+
+            for(let i = 0; i < data.floors.length; i++) {
+              let floor = data.floors[i];
+              let foundIndex = floor.companies.findIndex((c) => c.name.toLowerCase().includes(action.name.toLowerCase()));
+
+              if(foundIndex > -1) {
+                company = floor.companies[foundIndex];
+                floor.companies.splice(foundIndex, 1);
+                break;
+              }
+            }
+
+            data.floors = data.floors.map(f => {
+              if(f.num === action.toFloor) {
+                f.companies.push(company);
+              }
+
+              return f;
+            });
+
+            return data;
+          }); 
+        break;
         case 'UPDATE':
           // Update company action 
           writeFloorsFile((data) => {
             data.floors = data.floors.map(f => {
-              const foundIndex = f.companies.findIndex((c) => c.name.toLowerCase() === action.findName.toLowerCase());
+              const foundIndex = f.companies.findIndex((c) => c.name.toLowerCase().includes(action.findName.toLowerCase()));
 
               if(foundIndex >= 0) {
                 f.companies[foundIndex] = { 
                   ...f.companies[foundIndex], 
                   name: action.replaceWith ? action.replaceWith : f.companies[foundIndex].name, 
-                  logo: action.image ? imageFile : "" 
+                  //logo: action.image ? imageFile : "" 
+                }
+
+                if(action.image !== null) {
+                  f.companies[foundIndex].logo = action.image ? imageFile : "";
                 }
               }
 
@@ -88,7 +141,7 @@ app.post("/", async(req, res) => {
           // Delete company action
           writeFloorsFile((data) => {
             data.floors = data.floors.map(f => {
-              f.companies = f.companies.filter(c => c.name.toLowerCase() !== action.name.toLowerCase());
+              f.companies = f.companies.filter(c => !c.name.toLowerCase().includes(action.name.toLowerCase()));
 
               return f;
             })

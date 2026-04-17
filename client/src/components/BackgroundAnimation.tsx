@@ -1,23 +1,21 @@
 import BackgroundLine from './BackgroundLine';
 
 export default function BackgroundAnimation() {
-    
-
     return <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 1080 1920" 
         preserveAspectRatio="none" 
+        width={"100%"}
+        height={"100%"}
         style={{ 
             position: "fixed",
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            width: "100vw",
-            height: "100vw",
             opacity: 1,
-            zIndex: -1 ,
-            transform: "rotate(90deg)",
+            zIndex: -1,
+            transform: "rotate(90deg) scale(1.8)",
             filter: "hue-rotate(36deg)",
             // background: "radial-gradient(circle, rgba(0, 60, 202, 0.3) 0%, rgba(0, 60, 202, 0.1) 100%)"
         }}

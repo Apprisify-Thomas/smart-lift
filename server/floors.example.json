@@ -15,6 +15,10 @@
         {
             "num": 4,
             "companies": [{ "name": "NexStep Consulting" }]
+        },
+        {
+            "num": 5,
+            "companies": [{ "name": "Skyline Ventures" }, { "name": "EchoWave Solutions" }, { "name": "BrightPath Advisors" }]
         }
     ]
 }
