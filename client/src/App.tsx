@@ -3,7 +3,6 @@ import './App.css'
 import useWebSocket from "react-use-websocket";
 import type { Floor, SocketAction } from './types';
 import FloorItem from './components/FloorItem';
-import BackgroundAnimation from './components/BackgroundAnimation';
 import Building3D from './components/Building3D';
 import NumberFlow from '@number-flow/react'
 import BackgroundLoop from './components/BackgroundLoop';
@@ -119,13 +118,17 @@ export default function App() {
           </div> */}
 
           
-        <div 
+        <div className='flex' style={{ margin: "0 auto", maxWidth: 980 }}>
+          
+            <Building3D activeFloor={activeFloor} totalFloors={5} />
+          
+          <div 
           className='flex flex-col divide-y-2 divide-neutral-400' 
           style={{ margin: "0 auto", maxWidth: 900, perspective: "800px"}}
         >
           {floors.map((f, i) => <FloorItem key={i} floor={f} active={f.num === activeFloor} />)}
         </div>
-
+        </div>
         <div className='flex gap-10 justify-between' style={{ margin: "10rem auto", maxWidth: 900 }}>
           <div>
             <h2 className='text-2xl font-semibold mb-4 flex items-center gap-3'>
@@ -152,10 +155,6 @@ export default function App() {
                 {weather ? `${weather.current_condition[0].temp_C}°C ${weather.current_condition[0].weatherDesc[0].value}` : 'Lade...'}
               </p>
             </div>
-          </div>
-
-          <div>
-            <Building3D activeFloor={activeFloor} totalFloors={5} />
           </div>
         </div>
 

@@ -23,9 +23,9 @@ function Floor({ position, isActive }: { position: [number, number, number]; isA
     <group position={position}>
       {/* Floor platform - simple wireframe */}
       <mesh ref={meshRef} position={[0, 0, 0]}>
-        <boxGeometry args={[2.8, 0.2, 2.8]} />
+        <boxGeometry args={[1.7, 0.1, 1.7]} />
         <meshBasicMaterial
-          color={isActive ? "#00ffff" : "#008888"}
+          color={isActive ? "#FBFF00" : "#008888"}
           transparent
           opacity={isActive ? 0.95 : 0.85}
         />
@@ -58,17 +58,16 @@ function Floor({ position, isActive }: { position: [number, number, number]; isA
 function BuildingStructure() {
   const buildingRef = useRef<THREE.Group>(null);
 
-  useFrame((state) => {
-    if (buildingRef.current) {
-      buildingRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
-    }
-  });
+  // useFrame((state) => {
+  //   if (buildingRef.current) {
+  //     buildingRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
+  //   }
+  // });
 
   return (
     <group ref={buildingRef}>
-      {/* Building outline using EdgesGeometry - no diagonals */}
       <lineSegments>
-        <edgesGeometry args={[new THREE.BoxGeometry(3, 4, 3)]} />
+        <edgesGeometry args={[new THREE.BoxGeometry(1.7, 8, 1.7)]} />
         <lineBasicMaterial color="#00aaaa" transparent opacity={0.5} />
       </lineSegments>
     </group>
@@ -81,8 +80,8 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
 
   useFrame(() => {
     if (liftRef.current) {
-      const maxOffset = totalFloors > 1 ? 4 / (totalFloors - 1) : 0;
-      const targetY = -2 + (activeFloor - 1) * maxOffset;
+      const maxOffset = totalFloors > 1 ? 5 / (totalFloors - 1) : 0;
+      const targetY = -2.3 + (activeFloor - 2) * maxOffset;
       const currentY = liftRef.current.position.y;
       const delta = targetY - currentY;
       if (Math.abs(delta) < 0.01) {
@@ -98,17 +97,17 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
   });
 
   return (
-    <group position={[-1.1, 0, 1.1]}>
+    <group position={[-0, 0, 0]}>
       <lineSegments ref={shaftRef}>
-        <edgesGeometry args={[new THREE.BoxGeometry(0.8, 4.4, 0.8)]} />
+        <edgesGeometry args={[new THREE.BoxGeometry(0.8, 8, 0.8)]} />
         <lineBasicMaterial color="#00ffff" transparent opacity={0.5} />
       </lineSegments>
       <group ref={liftRef} position={[0, -2, 0]}>
         <mesh>
           <boxGeometry args={[0.75, 0.9, 0.75]} />
           <meshStandardMaterial
-            color="#00ffff"
-            emissive="#00ffff"
+            color="#FBFF00"
+            emissive="#FBFF00"
             emissiveIntensity={0.2}
             metalness={0.2}
             roughness={0.15}
@@ -120,11 +119,11 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
         </mesh>
         <mesh position={[0, -0.08, 0.42]}>
           <boxGeometry args={[0.3, 0.55, 0.04]} />
-          <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.25} depthWrite={true} />
+          <meshStandardMaterial color="#FBFF00" emissive="#FBFF00" emissiveIntensity={0.25} depthWrite={true} />
         </mesh>
         <mesh position={[0, 0, -0.38]}>
           <boxGeometry args={[0.7, 0.8, 0.02]} />
-          <meshStandardMaterial color="#005f7f" metalness={0.2} roughness={0.2} />
+          <meshStandardMaterial color="#FBFF00" metalness={0.2} roughness={0.2} />
         </mesh>
       </group>
     </group>
@@ -136,7 +135,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
     return Array.from({ length: totalFloors }, (_, i) => {
       const floorNum = i + 1;
       // Position floors evenly within the building height (0 to 4)
-      const y = (floorNum - 1) * (4 / (totalFloors - 1)) - 2; // Center around 0
+      const y = (floorNum - 1) * (5 / (totalFloors - 1)) - 4; // Center around 0
       return {
         position: [0, y, 0] as [number, number, number],
         isActive: floorNum === activeFloor,
@@ -146,7 +145,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
   }, [activeFloor, totalFloors]);
 
   return (
-    <div style={{ width: '200px', height: '200px' }}>
+    <div style={{ width: '400px', height: '100%' }}>
       <Canvas camera={{ position: [5, 2, 5], fov: 50 }}>
         {/* Lighting - brighter for wireframe */}
         <ambientLight intensity={1.0} color="#ffffff" />
@@ -154,17 +153,19 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
         <pointLight position={[-10, -10, -10]} intensity={1} color="#00ffff" />
 
         {/* Building structure */}
-        <BuildingStructure />
-        <Lift activeFloor={activeFloor} totalFloors={totalFloors} />
+        <group position={[-0, 1, 0]}>
+          <BuildingStructure />
+          <Lift activeFloor={activeFloor} totalFloors={totalFloors} />
 
-        {/* Floors */}
-        {floors.map((floor, index) => (
-          <Floor
-            key={index}
-            position={floor.position}
-            isActive={floor.isActive}
-          />
-        ))}
+          {/* Floors */}
+          {floors.map((floor, index) => (
+            <Floor
+              key={index}
+              position={floor.position}
+              isActive={floor.isActive}
+            />
+          ))}
+        </group>
 
         {/* Controls for interaction */}
         <OrbitControls
@@ -173,7 +174,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2}
           autoRotate
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={1}
         />
       </Canvas>
     </div>
@@ -182,12 +183,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
 
 export default function Building3D({ activeFloor, totalFloors }: Building3DProps) {
   return (
-    <div style={{
-      overflow: 'hidden',
-      boxShadow: '0 0 30px rgba(0, 255, 255, 0.4)',
-      background: 'linear-gradient(135deg, rgba(0, 20, 20, 0.9), rgba(0, 40, 40, 0.7))',
-      border: '1px solid rgba(0, 255, 255, 0.3)'
-    }}>
+    <div>
       <FuturisticBuilding activeFloor={activeFloor} totalFloors={totalFloors} />
     </div>
   );
