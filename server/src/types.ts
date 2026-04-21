@@ -23,17 +23,10 @@ export type DeleteCompanyAction = {
   name: string;
 }
 
-export type MoveCompanyAction = {
-  type: 'MOVE';
-  name: string;
-  fromFloor: number;
-  toFloor: number;
-}
-
 export type ChangeImageAction = {
   type: 'CHANGE_IMAGE';
   companyName: string;
   shouldBeChanged: boolean;
 }
 
-export type FloorAction = AddCompanyAction | UpdateCompanyAction | DeleteCompanyAction | MoveCompanyAction | ChangeImageAction;
+export type FloorAction = AddCompanyAction | UpdateCompanyAction | DeleteCompanyAction | ChangeImageAction;

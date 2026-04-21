@@ -5,7 +5,6 @@ import cors from "cors";
 import { askFloorManager, saveImage, writeFloorsFile } from "./utils";
 import path from "path";
 import { FLOORS_FILE } from "./config";
-import { FloorCompany } from "@client/types";
 
 const app = express();
 app.use(cors());
@@ -72,32 +71,6 @@ app.post("/", async(req, res) => {
 
             return data;
           })
-        break;
-        case 'MOVE':
-          writeFloorsFile((data) => {
-            let company: FloorCompany;
-
-            for(let i = 0; i < data.floors.length; i++) {
-              let floor = data.floors[i];
-              let foundIndex = floor.companies.findIndex((c) => c.name.toLowerCase().includes(action.name.toLowerCase()));
-
-              if(foundIndex > -1) {
-                company = floor.companies[foundIndex];
-                floor.companies.splice(foundIndex, 1);
-                break;
-              }
-            }
-
-            data.floors = data.floors.map(f => {
-              if(f.num === action.toFloor) {
-                f.companies.push(company);
-              }
-
-              return f;
-            });
-
-            return data;
-          }); 
         break;
         case 'UPDATE':
           // Update company action 
