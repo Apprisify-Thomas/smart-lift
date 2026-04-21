@@ -1,1 +1,1 @@
-export const FLOORS_FILE = "./floors.json";
+export const FLOORS_FILE = './floors.json';

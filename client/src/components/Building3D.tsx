@@ -25,14 +25,14 @@ function Floor({ position, isActive }: { position: [number, number, number]; isA
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <boxGeometry args={[1.7, 0.1, 1.7]} />
         <meshBasicMaterial
-          color={isActive ? "#FBFF00" : "#008888"}
+          color={isActive ? '#FBFF00' : '#008888'}
           transparent
           opacity={isActive ? 0.95 : 0.85}
         />
       </mesh>
 
       {/* Floor numbers */}
-       {/* <Text
+      {/* <Text
         position={[0, 0.1, 1.3]}
         fontSize={0.55}
         color={isActive ? "#00ffff" : "#00aaaa"}
@@ -119,7 +119,12 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
         </mesh>
         <mesh position={[0, -0.08, 0.42]}>
           <boxGeometry args={[0.3, 0.55, 0.04]} />
-          <meshStandardMaterial color="#FBFF00" emissive="#FBFF00" emissiveIntensity={0.25} depthWrite={true} />
+          <meshStandardMaterial
+            color="#FBFF00"
+            emissive="#FBFF00"
+            emissiveIntensity={0.25}
+            depthWrite={true}
+          />
         </mesh>
         <mesh position={[0, 0, -0.38]}>
           <boxGeometry args={[0.7, 0.8, 0.02]} />
@@ -139,7 +144,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
       return {
         position: [0, y, 0] as [number, number, number],
         isActive: floorNum === activeFloor + 1,
-        floorNumber: floorNum
+        floorNumber: floorNum,
       };
     });
   }, [activeFloor, totalFloors]);
@@ -159,11 +164,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
 
           {/* Floors */}
           {floors.map((floor, index) => (
-            <Floor
-              key={index}
-              position={floor.position}
-              isActive={floor.isActive}
-            />
+            <Floor key={index} position={floor.position} isActive={floor.isActive} />
           ))}
         </group>
 

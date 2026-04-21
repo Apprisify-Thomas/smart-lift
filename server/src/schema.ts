@@ -1,10 +1,10 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const AddCompanyAction = z.object({
   type: z.literal('ADD'),
   floor: z.number(),
   companyName: z.string(),
-  image: z.boolean()
+  image: z.boolean(),
 });
 
 export const DeleteCompanyAction = z.object({
@@ -16,7 +16,7 @@ export const UpdateCompanyAction = z.object({
   type: z.literal('UPDATE'),
   findName: z.string(),
   replaceWith: z.string(),
-  image: z.boolean().nullable()
+  image: z.boolean().nullable(),
 });
 
 export const ChangeCompanyImage = z.object({
@@ -29,9 +29,9 @@ export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
   DeleteCompanyAction,
-  ChangeCompanyImage
+  ChangeCompanyImage,
 ]);
 
 export const ActionSequence = z.object({
-  actions: z.array(Actions)
+  actions: z.array(Actions),
 });

@@ -1,10 +1,10 @@
-import OpenAI from "openai";
-import { zodTextFormat } from "openai/helpers/zod";
-import { ActionSequence } from "./schema";
-import fs from "fs";
-import crypto from "crypto";
-import { FloorAction, FloorData } from "./types";
-import { FLOORS_FILE } from "./config";
+import OpenAI from 'openai';
+import { zodTextFormat } from 'openai/helpers/zod';
+import { ActionSequence } from './schema';
+import fs from 'fs';
+import crypto from 'crypto';
+import { FloorAction, FloorData } from './types';
+import { FLOORS_FILE } from './config';
 
 const openAIClient = new OpenAI({
   apiKey: process.env.OPEN_AI_APIKEY,
@@ -12,27 +12,26 @@ const openAIClient = new OpenAI({
 
 export async function askFloorManager(command: string) {
   const response = await openAIClient.responses.create({
-    model: "gpt-4o-mini",
+    model: 'gpt-4o-mini',
     input: [
       {
-        role: "system",
-        content:
-          `Act as a floor UI manager. The user is allowed to rename a company on a specific floor, 
+        role: 'system',
+        content: `Act as a floor UI manager. The user is allowed to rename a company on a specific floor, 
           update a company name, delete or add a new company. This should result in a action sequence.
           Company names should not be modified`,
       },
       {
-        role: "user",
+        role: 'user',
         content: [
           {
-            type: "input_text",
+            type: 'input_text',
             text: command,
           },
         ],
       },
     ],
     text: {
-      format: zodTextFormat(ActionSequence, "actions"),
+      format: zodTextFormat(ActionSequence, 'actions'),
     },
   });
 
@@ -45,20 +44,17 @@ export function writeFloorsFile(writer: (data: FloorData) => FloorData) {
 }
 
 export function saveImage(base64Image: string) {
-    const hash = crypto
-    .createHash('sha256')
-    .update(base64Image)
-    .digest('hex');
+  const hash = crypto.createHash('sha256').update(base64Image).digest('hex');
 
-  const fileName = hash + ".png";
+  const fileName = hash + '.png';
   const filePath = `./public/files/${fileName}`;
 
-  if(fs.existsSync(filePath)) {
+  if (fs.existsSync(filePath)) {
     console.log('File exists');
     return `http://localhost:8083/files/${fileName}`;
   }
 
-  fs.writeFile(filePath, base64Image, { encoding: 'base64' }, function() {
+  fs.writeFile(filePath, base64Image, { encoding: 'base64' }, function () {
     console.log('File created');
   });
 
