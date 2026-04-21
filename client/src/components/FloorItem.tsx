@@ -2,15 +2,7 @@ import type { CSSProperties, Key } from 'react';
 import type { Floor } from '../types';
 import FloorCompanyItem from './FloorCompanyItem';
 
-export default function FloorItem({
-  floor,
-  key,
-  active,
-}: {
-  floor: Floor;
-  key: Key | null | undefined;
-  active?: boolean;
-}) {
+export default function FloorItem({ floor, active }: { floor: Floor; active?: boolean }) {
   let containerStyles: CSSProperties = {
     transition: '0.5s all ease-out',
     transform: 'rotateY(8deg)',
@@ -31,7 +23,7 @@ export default function FloorItem({
   }
 
   return (
-    <div key={key} style={{ display: 'flex', ...containerStyles }}>
+    <div style={{ display: 'flex', ...containerStyles }}>
       <div
         style={{
           display: 'flex',
