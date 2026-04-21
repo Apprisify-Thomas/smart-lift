@@ -46,13 +46,13 @@ export default function Widgets() {
           Weather today
         </h2>
         <div className="flex gap-4">
-          {weatherIcon && (
+          {/* {weatherIcon && (
             <img
               src={weatherIcon}
               alt={weather?.current_condition?.[0]?.weatherDesc?.[0]?.value ?? 'Wetter'}
               style={{ width: 70, height: 70, objectFit: 'contain' }}
             />
-          )}
+          )} */}
           <p className="text-3xl font-extralight">
             {weather
               ? `${weather.current_condition[0].temp_C}°C ${weather.current_condition[0].weatherDesc[0].value}`
