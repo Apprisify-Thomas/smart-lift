@@ -1,19 +1,19 @@
 import { z } from 'zod';
 
 export const AddCompanyAction = z.object({
-  type: z.literal('ADD'),
+  type: z.literal('ADD_COMPANY'),
   floor: z.number(),
-  companyName: z.string(),
+  name: z.string(),
   image: z.boolean(),
 });
 
 export const DeleteCompanyAction = z.object({
-  type: z.literal('DELETE'),
+  type: z.literal('DELETE_COMPANY'),
   name: z.string(),
 });
 
 export const UpdateCompanyAction = z.object({
-  type: z.literal('UPDATE'),
+  type: z.literal('UPDATE_COMPANY'),
   findName: z.string(),
   replaceWith: z.string(),
   image: z.boolean().nullable(),

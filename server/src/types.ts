@@ -5,21 +5,21 @@ export type FloorData = {
 };
 
 export type AddCompanyAction = {
-  type: 'ADD';
+  type: 'ADD_COMPANY';
   floor: number;
-  companyName: string;
+  name: string;
   image: boolean;
 };
 
 export type UpdateCompanyAction = {
-  type: 'UPDATE';
+  type: 'UPDATE_COMPANY';
   findName: string;
   replaceWith: string;
   image: boolean;
 };
 
 export type DeleteCompanyAction = {
-  type: 'DELETE';
+  type: 'DELETE_COMPANY';
   name: string;
 };
 

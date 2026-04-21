@@ -73,7 +73,7 @@ app.post('/', async (req, res) => {
           return data;
         });
         break;
-      case 'UPDATE':
+      case 'UPDATE_COMPANY':
         // Update company action
         writeFloorsFile((data) => {
           data.floors = data.floors.map((f) => {
@@ -99,12 +99,12 @@ app.post('/', async (req, res) => {
           return data;
         });
         break;
-      case 'ADD':
+      case 'ADD_COMPANY':
         // Add company action
         writeFloorsFile((data) => {
           data.floors = data.floors.map((f) => {
             if (action.floor !== 0 && action.floor === f.num) {
-              f.companies.push({ name: action.companyName, logo: action.image ? imageFile : '' });
+              f.companies.push({ name: action.name, logo: action.image ? imageFile : '' });
             }
 
             return f;
@@ -113,7 +113,7 @@ app.post('/', async (req, res) => {
           return data;
         });
         break;
-      case 'DELETE':
+      case 'DELETE_COMPANY':
         // Delete company action
         writeFloorsFile((data) => {
           data.floors = data.floors.map((f) => {
