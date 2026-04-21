@@ -1,4 +1,5 @@
 # UI Features
+
 - Anzeige der aktuellen Etage
 - Anzeige der aktuellen Fahrtrichtung (Fährt nach oben oder unten)
 - Campaign / DiaShow: Wechselnde Werbeinhalte
@@ -7,12 +8,12 @@
 - Aktuelle Ladung in Kilogramm
 - Aktuelle News
 - Wetter / Temperatur
-- 
+-
 
 # Abzudeckende Cases
+
 - FloorItem hinzufügen
 - FloorItem entfernen
-- FloorItem Label tauschen
 - FloorItem Label ändern
 - FloorItem Image ändern
 - FloorItem Image hinzufügen
