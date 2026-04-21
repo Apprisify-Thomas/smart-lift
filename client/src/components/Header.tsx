@@ -6,7 +6,6 @@ export default function Header({ activeFloor }: { activeFloor: number }) {
       style={{
         display: 'flex',
         gap: '5rem',
-        margin: '2rem auto 14rem auto',
         maxWidth: 900,
         perspective: '500px',
       }}
