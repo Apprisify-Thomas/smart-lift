@@ -81,7 +81,7 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
   useFrame(() => {
     if (liftRef.current) {
       const maxOffset = totalFloors > 1 ? 5 / (totalFloors - 1) : 0;
-      const targetY = -2.3 + (activeFloor - 2) * maxOffset;
+      const targetY = -2.3 + (activeFloor - 1) * maxOffset;
       const currentY = liftRef.current.position.y;
       const delta = targetY - currentY;
       if (Math.abs(delta) < 0.01) {
@@ -138,7 +138,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
       const y = (floorNum - 1) * (5 / (totalFloors - 1)) - 4; // Center around 0
       return {
         position: [0, y, 0] as [number, number, number],
-        isActive: floorNum === activeFloor,
+        isActive: floorNum === activeFloor + 1,
         floorNumber: floorNum
       };
     });

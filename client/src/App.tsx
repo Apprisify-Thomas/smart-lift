@@ -16,7 +16,7 @@ export default function App() {
     reconnectInterval: 3000,
   });
 
-  const [activeFloor, setActiveFloor] = useState(1);
+  const [activeFloor, setActiveFloor] = useState(0);
   const [floors, setFloors] = useState<Floor[]>([]);
   const [weather, setWeather] = useState<any>(null);
   const [weatherIcon, setWeatherIcon] = useState<string | null>(null);
@@ -44,7 +44,7 @@ export default function App() {
 
   useEffect(() => {
     const timeout = setInterval(() => {
-      setActiveFloor(activeFloor === floors.length ? 1 : activeFloor + 1);
+      setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
     }, 4000);
     return () => clearTimeout(timeout);
   }, [activeFloor, floors]);
@@ -65,7 +65,6 @@ export default function App() {
 
   return (
     <>
-      {/* <BackgroundAnimation /> */}
       <BackgroundLoop />
       <div style={{ position: "relative", paddingTop: 80, zIndex: 20 }}>
         <header style={{ display: "flex", gap: "5rem", margin: "2rem auto 14rem auto", maxWidth: 900, perspective: "500px" }}>
@@ -96,15 +95,14 @@ export default function App() {
           <div>
             <p style={{ fontSize: 40, fontWeight: 300, margin: 0 }}>Next Stop</p>
             <h2 className='flex gap-3' style={{ minWidth: 150, fontSize: 70, alignItems: "center", fontWeight: 700, margin: 0 }}>
-              
               <NumberFlow 
                 transformTiming={{ duration: 350, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }} 
-                value={3} 
+                value={4} 
                 trend={0} 
                 style={{ minWidth: 50 }}
                 format={{ notation: "compact" }} 
               />
-              / 6sec
+              {/* / 6sec */}
             </h2>
           </div>
         </header>
@@ -119,15 +117,13 @@ export default function App() {
 
           
         <div className='flex' style={{ margin: "0 auto", maxWidth: 980 }}>
-          
             <Building3D activeFloor={activeFloor} totalFloors={5} />
-          
           <div 
-          className='flex flex-col divide-y-2 divide-neutral-400' 
-          style={{ margin: "0 auto", maxWidth: 900, perspective: "800px"}}
-        >
-          {floors.map((f, i) => <FloorItem key={i} floor={f} active={f.num === activeFloor} />)}
-        </div>
+            className='flex flex-col divide-y-2 divide-neutral-400' 
+            style={{ margin: "0 auto", maxWidth: 900, perspective: "800px"}}
+          >
+            {floors.map((f, i) => <FloorItem key={i} floor={f} active={f.num === activeFloor} />)}
+          </div>
         </div>
         <div className='flex gap-10 justify-between' style={{ margin: "10rem auto", maxWidth: 900 }}>
           <div>
