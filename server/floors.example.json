@@ -1,24 +1,41 @@
 {
-    "floors": [
-        {
-            "num": 4,
-            "companies": [{ "name": "Novastack", "logo": "http://localhost:8083/logos/novastack.svg" }, { "name": "Aetheric AI", "logo": "http://localhost:8083/logos/aetheric-ai.svg" }, { "name": "Syncrobase", "logo": "http://localhost:8083/logos/syncrobase.svg" }, { "name": "Vertexly", "logo": "http://localhost:8083/logos/vertexly.svg" }]
-        },
-        {
-            "num": 3,
-            "companies": [{ "name": "Pixel & Prime", "logo": "http://localhost:8083/logos/pixel-prime.svg" }, { "name": "Lumina Media", "logo": "http://localhost:8083/logos/lumina-media.svg" }, { "name": "Vivid Flow", "logo": "http://localhost:8083/logos/vivid-flow.svg" }, { "name": "Bold Roots", "logo": "http://localhost:8083/logos/bold-roots.svg" }]
-        },
-        {
-            "num": 2,
-            "companies": [{ "name": "PureLeaf Dynamics", "logo": "http://localhost:8083/logos/pureleaf-dynamics.svg" }, { "name": "Urban Bloom", "logo": "http://localhost:8083/logos/urban-bloom.svg" }]
-        },
-        {
-            "num": 1,
-            "companies": [{ "name": "NexStep Consulting", "logo": "http://localhost:8083/logos/nexstep-consulting.svg" }]
-        },
-        {
-            "num": 0,
-            "companies": [{ "name": "Skyline Ventures", "logo": "http://localhost:8083/logos/skyline-ventures.svg" }, { "name": "EchoWave Solutions", "logo": "http://localhost:8083/logos/echowave-solutions.svg" }, { "name": "BrightPath Advisors", "logo": "http://localhost:8083/logos/brightpath-advisors.svg" }]
-        }
-    ]
+  "floors": [
+    {
+      "num": 4,
+      "companies": [
+        { "name": "Siemens", "logo": "http://localhost:8083/logos/siemens.svg" },
+        { "name": "SAP", "logo": "http://localhost:8083/logos/sap.svg" },
+        { "name": "Bosch", "logo": "http://localhost:8083/logos/bosch.svg" },
+        { "name": "Deutsche Telekom", "logo": "http://localhost:8083/logos/deutsche-telekom.svg" }
+      ]
+    },
+    {
+      "num": 3,
+      "companies": [
+        { "name": "Adidas", "logo": "http://localhost:8083/logos/adidas.svg" },
+        { "name": "BMW", "logo": "http://localhost:8083/logos/bmw.svg" },
+        { "name": "Volkswagen", "logo": "http://localhost:8083/logos/volkswagen.svg" },
+        { "name": "Allianz", "logo": "http://localhost:8083/logos/allianz.svg" }
+      ]
+    },
+    {
+      "num": 2,
+      "companies": [
+        { "name": "Bayer", "logo": "http://localhost:8083/logos/bayer.svg" },
+        { "name": "BASF", "logo": "http://localhost:8083/logos/basf.svg" }
+      ]
+    },
+    {
+      "num": 1,
+      "companies": [{ "name": "KPMG", "logo": "http://localhost:8083/logos/kpmg.svg" }]
+    },
+    {
+      "num": 0,
+      "companies": [
+        { "name": "Deutsche Bank", "logo": "http://localhost:8083/logos/deutsche-bank.svg" },
+        { "name": "Commerzbank", "logo": "http://localhost:8083/logos/commerzbank.svg" },
+        { "name": "Merck", "logo": "http://localhost:8083/logos/merck.svg" }
+      ]
+    }
+  ]
 }
