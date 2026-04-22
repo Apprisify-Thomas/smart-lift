@@ -1,4 +1,4 @@
-import { WebSocketServer } from 'ws';
+import { WebSocket, WebSocketServer } from 'ws';
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
@@ -12,12 +12,16 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 app.use(express.json({ limit: '5mb' }));
 
+let connectedWS: WebSocket;
+
 const wsServer = new WebSocketServer({
   port: 8082,
 });
 
 wsServer.on('connection', (ws) => {
   console.log('Client connected');
+
+  connectedWS = ws;
 
   const sendFloorUpdate = () => {
     var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
@@ -46,7 +50,13 @@ app.post('/', async (req, res) => {
     imageFile = saveImage(attachments[0].Content);
   }
 
+  connectedWS.send(
+    JSON.stringify({ type: 'email:processing', payload: { message: 'Processing email...' } })
+  );
+
   const answer = await askFloorManager(message);
+
+  connectedWS.send(JSON.stringify({ type: 'email:processed', payload: answer }));
 
   console.log(answer);
 

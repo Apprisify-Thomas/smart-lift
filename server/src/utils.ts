@@ -19,8 +19,7 @@ export async function askFloorManager(command: string) {
       {
         role: 'system',
         content: `Act as a floor UI manager. The user is allowed to rename a company on a specific floor, 
-          update a company name, delete or add a new company. This should result in a action sequence.
-          Company names should not be modified. If the user wants to change the image of a company, you should only change the image if the user explicitly says so.
+          update a company name, delete or add a new company. This should result in a action sequence. If the user wants to change the image of a company, you should only change the image if the user explicitly says so.
           The building has ${data.floors.length} floors. Here is the current state of the building: ${JSON.stringify(
             data
           )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.`,

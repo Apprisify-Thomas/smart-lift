@@ -19,6 +19,7 @@ export default function App() {
 
   const [activeFloor, setActiveFloor] = useState(0);
   const [floors, setFloors] = useState<Floor[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -27,6 +28,17 @@ export default function App() {
       switch (action.type) {
         case 'floors:update':
           setFloors(action.payload);
+          break;
+        case 'email:processing':
+          console.log('Email processing:', action.payload);
+          setLoading(true);
+          break;
+        case 'email:processed':
+          console.log('Email processed:', action.payload);
+          setLoading(false);
+          break;
+        default:
+          console.warn('Unknown action type:', action.type);
       }
     }
   }, [lastMessage]);
@@ -39,30 +51,37 @@ export default function App() {
   }, [activeFloor, floors]);
 
   return (
-    <div style={{ margin: '5rem auto', maxWidth: 900, position: 'relative' }}>
-      <div style={{ position: 'relative', marginBottom: '4rem' }}>
-        <Header activeFloor={activeFloor} />
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'right', perspective: '600px' }}></div>
-
-      <div className="flex mb-30 gap-15">
-        <Building3D activeFloor={activeFloor} totalFloors={5} />
-        <div
-          className="flex flex-col divide-y-2 divide-neutral-400"
-          style={{ margin: '0 auto', perspective: '800px' }}
-        >
-          {floors.map((f, i) => (
-            <FloorItem key={i} floor={f} active={f.num === activeFloor} />
-          ))}
+    <>
+      {loading && (
+        <div className="absolute left-0 right-0 bottom-0 top-0 bg-black/70 flex justify-center items-center z-20">
+          <div className="bg-white/20 px-5 py-3 rounded-lg">E-Mail received. Processing...</div>
         </div>
-      </div>
+      )}
+      <div style={{ margin: '5rem auto', maxWidth: 900, position: 'relative' }}>
+        <div style={{ position: 'relative', marginBottom: '4rem' }}>
+          <Header activeFloor={activeFloor} />
+        </div>
 
-      <div>
-        <Widgets />
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'right', perspective: '600px' }}></div>
 
-      <Footer />
-    </div>
+        <div className="flex mb-30 gap-15">
+          <Building3D activeFloor={activeFloor} totalFloors={5} />
+          <div
+            className="flex flex-col divide-y-2 divide-neutral-400"
+            style={{ margin: '0 auto', perspective: '800px' }}
+          >
+            {floors.map((f, i) => (
+              <FloorItem key={i} floor={f} active={f.num === activeFloor} />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <Widgets />
+        </div>
+
+        <Footer />
+      </div>
+    </>
   );
 }
