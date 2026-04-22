@@ -1,16 +1,26 @@
-import type { CSSProperties, Key } from 'react';
+import type { CSSProperties, MouseEventHandler } from 'react';
 import type { Floor } from '../types';
 import FloorCompanyItem from './FloorCompanyItem';
 
-export default function FloorItem({ floor, active }: { floor: Floor; active?: boolean }) {
+interface FloorItemProps {
+  floor: Floor;
+  active?: boolean;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+  disabled?: boolean;
+}
+
+export default function FloorItem({ floor, active, onClick, disabled }: FloorItemProps) {
   let containerStyles: CSSProperties = {
     transition: '0.5s all ease-out',
     transform: 'rotateY(8deg)',
+    cursor: disabled ? 'not-allowed' : 'pointer',
   };
+
   let leftContainerStyles: CSSProperties = {
     transition: '0.5s all ease-out',
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   };
+
   let rightContainerStyles: CSSProperties = {
     transition: '0.5s all ease-out',
     backgroundColor: 'rgba(255, 255, 255, 0.03)',
@@ -23,7 +33,7 @@ export default function FloorItem({ floor, active }: { floor: Floor; active?: bo
   }
 
   return (
-    <div style={{ display: 'flex', ...containerStyles }}>
+    <div style={{ display: 'flex', ...containerStyles }} onClick={disabled ? undefined : onClick}>
       <div
         style={{
           display: 'flex',

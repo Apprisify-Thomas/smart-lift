@@ -20,6 +20,8 @@ export default function App() {
   const [activeFloor, setActiveFloor] = useState(0);
   const [floors, setFloors] = useState<Floor[]>([]);
   const [loading, setLoading] = useState(false);
+  const [nextStop, setNextStop] = useState<number | null>(null);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -43,12 +45,33 @@ export default function App() {
     }
   }, [lastMessage]);
 
-  useEffect(() => {
-    const timeout = setInterval(() => {
-      setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
-    }, 4000);
-    return () => clearTimeout(timeout);
-  }, [activeFloor, floors]);
+  // useEffect(() => {
+  //   const timeout = setInterval(() => {
+  //     setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
+  //   }, 4000);
+  //   return () => clearTimeout(timeout);
+  // }, [activeFloor, floors]);
+
+  const handleFloorClick = (targetFloor: number) => {
+    if (animating || targetFloor === activeFloor) return;
+
+    setAnimating(true);
+    setNextStop(targetFloor);
+
+    const direction = targetFloor > activeFloor ? 1 : -1;
+    const interval = setInterval(() => {
+      setActiveFloor((prev) => {
+        const next = prev + direction;
+        if ((direction === 1 && next >= targetFloor) || (direction === -1 && next <= targetFloor)) {
+          clearInterval(interval);
+          setAnimating(false);
+          setNextStop(null);
+          return targetFloor;
+        }
+        return next;
+      });
+    }, 1000); // Adjust timing as needed
+  };
 
   return (
     <>
@@ -59,7 +82,7 @@ export default function App() {
       )}
       <div style={{ margin: '5rem auto', maxWidth: 900, position: 'relative' }}>
         <div style={{ position: 'relative', marginBottom: '4rem' }}>
-          <Header activeFloor={activeFloor} />
+          <Header activeFloor={activeFloor} nextStop={nextStop} />
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'right', perspective: '600px' }}></div>
@@ -71,7 +94,13 @@ export default function App() {
             style={{ margin: '0 auto', perspective: '800px' }}
           >
             {floors.map((f, i) => (
-              <FloorItem key={i} floor={f} active={f.num === activeFloor} />
+              <FloorItem
+                key={i}
+                floor={f}
+                active={f.num === activeFloor}
+                onClick={() => handleFloorClick(f.num)}
+                disabled={animating}
+              />
             ))}
           </div>
         </div>
