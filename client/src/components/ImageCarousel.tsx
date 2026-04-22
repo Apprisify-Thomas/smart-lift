@@ -1,47 +1,81 @@
+import { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 
-export default function ImageCarousel({ activeFloor }: { activeFloor: number }) {
+function ImageSlide({
+  path,
+  isActive,
+  isTransitioning,
+}: {
+  path: string;
+  isActive: boolean;
+  isTransitioning: boolean;
+}) {
+  const styles: CSSProperties = {
+    position: 'absolute',
+    // filter: 'contrast(1) brightness(1.5) saturate(0.75)',
+    left: 0,
+    top: 0,
+    right: 0,
+    width: '100%',
+    objectFit: 'cover',
+    transition: 'opacity 0.5s ease-in-out',
+    opacity: 0,
+  };
+
+  if (isActive) {
+    styles.opacity = 1;
+  } else {
+    styles.opacity = 0;
+  }
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
+      <img src={path} style={styles} />
+    </div>
+  );
+}
+
+export default function ImageCarousel() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const images = ['/image-1.png', '/image-2.png', '/image-3.png', '/image-4.png'];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentImageIndex((prevIndex) => {
+          const newIndex = (prevIndex + 1) % images.length;
+
+          return newIndex;
+        });
+      }, 1000);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length, currentImageIndex]);
+
   const styles: CSSProperties = {
     position: 'relative',
   };
 
-  function ImageSlide({ floor, path }: { floor: number; path: string }) {
-    const styles: CSSProperties = {
-      position: 'absolute',
-      width: '100%',
-      filter: 'contrast(1) brightness(1.5) saturate(0.75)',
-      opacity: 0,
-    };
-
-    if (floor === activeFloor) {
-      styles.animation = 'fadein 0.5s forwards';
-    } else if (floor === activeFloor - 1) {
-      styles.animation = 'fadeout 0.5s forwards';
-    }
-
-    return (
-      <div
-        style={{
-          transform: 'rotateY(-3deg)',
-          position: 'relative',
-          left: 0,
-          top: 0,
-          right: 0,
-          width: 600,
-        }}
-      >
-        <img src={path} style={styles} />
-      </div>
-    );
-  }
-
   return (
     <div style={styles}>
-      <ImageSlide floor={1} path="/image-1.png" />
-      <ImageSlide floor={2} path="/image-2.png" />
-      <ImageSlide floor={3} path="/image-3.png" />
-      <ImageSlide floor={4} path="/image-4.png" />
-      <ImageSlide floor={5} path="/image-3.png" />
+      {images.map((path, index) => (
+        <ImageSlide
+          key={index}
+          path={path}
+          isActive={index === currentImageIndex}
+          isTransitioning={isTransitioning && index === currentImageIndex}
+        />
+      ))}
     </div>
   );
 }
