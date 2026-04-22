@@ -5,38 +5,6 @@ body {
   overflow: hidden;
 }
 
-@keyframes fadein {
-  from {
-    opacity: 0;
-    /* transform: translateX(-60px) scale(0.95); */
-  }
-  to {
-    opacity: 1;
-    /* transform: translateX(0px) scale(1); */
-  }
-}
-
-@keyframes fadeout {
-  from {
-    opacity: 1;
-    /* transform: translateX(0px) scale(1); */
-  }
-  to {
-    opacity: 0;
-    /* transform: translateX(60px) scale(0.95); */
-  }
-}
-
 .background-blur {
   background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.fade-in {
-  opacity: 1;
-  transition: opacity 1s;
-}
-
-.fade-out {
-  opacity: 0;
-  transition: opacity 1s;
 }
