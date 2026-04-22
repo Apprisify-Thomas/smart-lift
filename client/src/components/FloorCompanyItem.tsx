@@ -17,14 +17,16 @@ export default function FloorCompanyItem({ company }: { company: FloorCompany })
           justifyContent: 'center',
         }}
       >
-        <img
-          src={company.logo}
-          style={{
-            maxHeight: 60,
-            maxWidth: 100,
-            filter: 'saturate(0)',
-          }}
-        />
+        {company.logo && (
+          <img
+            src={company.logo}
+            style={{
+              maxHeight: 60,
+              maxWidth: 100,
+              filter: 'saturate(0)',
+            }}
+          />
+        )}
       </div>
       {company.name}
     </div>
