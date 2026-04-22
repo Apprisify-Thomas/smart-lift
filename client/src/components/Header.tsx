@@ -1,4 +1,5 @@
 import NumberFlow from '@number-flow/react';
+import ImageCarousel from './ImageCarousel';
 
 export default function Header({ activeFloor }: { activeFloor: number }) {
   return (
@@ -58,6 +59,10 @@ export default function Header({ activeFloor }: { activeFloor: number }) {
           />
           {/* / 6sec */}
         </h2>
+      </div>
+
+      <div style={{ width: 420, height: 250 }}>
+        <ImageCarousel />
       </div>
     </header>
   );
