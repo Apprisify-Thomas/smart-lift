@@ -76,7 +76,7 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
       if (Math.abs(delta) < 0.01) {
         liftRef.current.position.y = targetY;
       } else {
-        liftRef.current.position.y += delta * 0.1;
+        liftRef.current.position.y += delta * 0.02; // Slower transition for lift-like movement
       }
     }
 
