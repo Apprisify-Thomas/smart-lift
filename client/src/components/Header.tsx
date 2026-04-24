@@ -25,7 +25,8 @@ export default function Header({
     <header
       style={{
         display: 'flex',
-        gap: '5rem',
+        gap: '4rem',
+        justifyContent: 'space-between',
         maxWidth: 900,
         perspective: '500px',
       }}
@@ -55,13 +56,6 @@ export default function Header({
               <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
             </svg>
           )}
-          {/* <NumberFlow 
-                    transformTiming={{ duration: 350, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }} 
-                    value={3} 
-                    trend={0} 
-                    style={{ minWidth: 50 }}
-                    format={{ notation: "compact" }} 
-                  /> */}
         </h2>
       </div>
 

@@ -12,7 +12,7 @@ function ImageSlide({
 }) {
   const styles: CSSProperties = {
     position: 'absolute',
-    // filter: 'contrast(1) brightness(1.5) saturate(0.75)',
+    filter: 'contrast(1) brightness(1.2) saturate(0.75)',
     left: 0,
     top: 0,
     right: 0,

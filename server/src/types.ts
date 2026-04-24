@@ -34,3 +34,10 @@ export type FloorAction =
   | UpdateCompanyAction
   | DeleteCompanyAction
   | ChangeImageAction;
+
+export type FileAttachment = {
+  Content: string;
+  ContentLength: number;
+  Name: string;
+  ContentType: string;
+};

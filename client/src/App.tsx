@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import useWebSocket from 'react-use-websocket';
 import type { Floor, SocketAction } from './types';
-import FloorItem from './components/FloorItem';
-import Building3D from './components/Building3D';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Widgets from './components/Widgets';
+import FloorManager from './components/FloorManager';
 
 export default function App() {
   const { lastMessage } = useWebSocket('ws://localhost:8082', {
@@ -45,12 +43,12 @@ export default function App() {
     }
   }, [lastMessage]);
 
-  // useEffect(() => {
-  //   const timeout = setInterval(() => {
-  //     setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
-  //   }, 4000);
-  //   return () => clearTimeout(timeout);
-  // }, [activeFloor, floors]);
+  useEffect(() => {
+    const timeout = setInterval(() => {
+      setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
+    }, 4000);
+    return () => clearTimeout(timeout);
+  }, [activeFloor, floors]);
 
   const handleFloorClick = (targetFloor: number) => {
     if (animating || targetFloor === activeFloor) return;
@@ -80,34 +78,22 @@ export default function App() {
           <div className="bg-white/20 px-5 py-3 rounded-lg">E-Mail received. Processing...</div>
         </div>
       )}
-      <div style={{ margin: '5rem auto', maxWidth: 900, position: 'relative' }}>
-        <div style={{ position: 'relative', marginBottom: '4rem' }}>
+      <div
+        className="flex flex-col justify-between"
+        style={{ margin: '5rem auto', maxWidth: 880, position: 'relative' }}
+      >
+        <div className="mb-10">
           <Header activeFloor={activeFloor} nextStop={nextStop} />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'right', perspective: '600px' }}></div>
+        <FloorManager
+          floors={floors}
+          activeFloor={activeFloor}
+          onFloorClick={handleFloorClick}
+          disabled={animating}
+        />
 
-        <div className="flex mb-30 gap-15">
-          <Building3D activeFloor={activeFloor} totalFloors={5} />
-          <div
-            className="flex flex-col divide-y-2 divide-neutral-400"
-            style={{ margin: '0 auto', perspective: '800px' }}
-          >
-            {floors.map((f, i) => (
-              <FloorItem
-                key={i}
-                floor={f}
-                active={f.num === activeFloor}
-                onClick={() => handleFloorClick(f.num)}
-                disabled={animating}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <Widgets />
-        </div>
+        <Widgets />
 
         <Footer />
       </div>

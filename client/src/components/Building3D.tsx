@@ -30,7 +30,7 @@ function Floor({ position, isActive }: { position: [number, number, number]; isA
     <group position={position}>
       {/* Floor platform - simple wireframe */}
       <mesh ref={meshRef} position={[0, 0, 0]}>
-        <boxGeometry args={[1.5, 0.05, 1.5]} />
+        <boxGeometry args={[0.5, 0.02, 0.5]} />
         <meshBasicMaterial
           color={isActive ? '#ffff00' : '#008888'}
           transparent
@@ -53,7 +53,7 @@ function BuildingStructure() {
   return (
     <group ref={buildingRef}>
       <lineSegments>
-        <edgesGeometry args={[new BoxGeometry(1.5, 8, 1.5)]} />
+        <edgesGeometry args={[new BoxGeometry(0.5, 8, 0.5)]} />
         <lineBasicMaterial color="#00aaaa" transparent opacity={0.5} />
       </lineSegments>
     </group>
@@ -70,7 +70,7 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
     let delta = 0;
     if (liftRef.current) {
       const maxOffset = totalFloors > 1 ? 5 / (totalFloors - 1) : 0;
-      const targetY = -2.4 + (activeFloor - 1) * maxOffset;
+      const targetY = -2.5 + (activeFloor - 1) * maxOffset;
       const currentY = liftRef.current.position.y;
       delta = targetY - currentY;
       if (Math.abs(delta) < 0.01) {
@@ -100,34 +100,31 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
   return (
     <group position={[-0, 0, 0]}>
       <lineSegments ref={shaftRef}>
-        <edgesGeometry args={[new BoxGeometry(0.5, 8, 0.5)]} />
+        <edgesGeometry args={[new BoxGeometry(0.3, 8, 0.3)]} />
         <lineBasicMaterial color="#00ffff" transparent opacity={0.5} />
       </lineSegments>
       <group ref={liftRef} position={[0, -2, 0]}>
         {/* Main lift body */}
         <mesh>
-          <boxGeometry args={[0.5, 0.7, 0.5]} />
+          <boxGeometry args={[0.3, 0.5, 0.3]} />
           <meshStandardMaterial
             color="#ffff00"
             emissive="#ffff00"
-            emissiveIntensity={1.5}
+            emissiveIntensity={1.2}
             metalness={0.2}
             roughness={0.15}
             transparent
-            opacity={0.75}
+            opacity={0.8}
           />
         </mesh>
 
-        {/* Left door */}
-        <mesh ref={leftDoorRef} position={[-0.125, 0, 0.26]}>
-          <boxGeometry args={[0.12, 0.6, 0.02]} />
-          <meshStandardMaterial color="#777777" roughness={0.2} />
+        <mesh position={[-0.02, -0.1, 0.15]}>
+          <boxGeometry args={[0.12, 0.3, 0.02]} />
+          <meshStandardMaterial color="#000000" roughness={0.1} />
         </mesh>
-
-        {/* Right door */}
-        <mesh ref={rightDoorRef} position={[0.125, 0, 0.26]}>
-          <boxGeometry args={[0.12, 0.6, 0.02]} />
-          <meshStandardMaterial color="#777777" roughness={0.2} />
+        <mesh position={[0.02, -0.1, 0.15]}>
+          <boxGeometry args={[0.12, 0.3, 0.02]} />
+          <meshStandardMaterial color="#000000" roughness={0.1} />
         </mesh>
       </group>
     </group>
@@ -149,7 +146,7 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
   }, [activeFloor, totalFloors]);
 
   return (
-    <div style={{ width: '300px', height: '100%' }}>
+    <div style={{ width: '100px', height: '100%' }}>
       <Canvas camera={{ position: [5, 2, 5], fov: 50 }}>
         {/* Lighting - brighter for wireframe */}
         <ambientLight intensity={1.0} color="#ffffff" />

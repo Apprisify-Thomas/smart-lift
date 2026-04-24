@@ -6,13 +6,13 @@ export default function FloorCompanyItem({ company }: { company: FloorCompany })
       style={{
         display: 'flex',
         alignItems: 'center',
-        fontSize: 16,
-        gap: 10,
+        fontSize: 20,
+        gap: 20,
       }}
     >
       <div
         style={{
-          minWidth: 100,
+          minWidth: 110,
           display: 'flex',
           justifyContent: 'center',
         }}
@@ -22,7 +22,7 @@ export default function FloorCompanyItem({ company }: { company: FloorCompany })
             src={company.logo}
             style={{
               maxHeight: 60,
-              maxWidth: 100,
+              maxWidth: 110,
               filter: 'saturate(0)',
             }}
           />

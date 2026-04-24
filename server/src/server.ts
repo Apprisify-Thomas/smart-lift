@@ -5,6 +5,7 @@ import cors from 'cors';
 import { askFloorManager, saveImage, writeFloorsFile } from './utils';
 import path from 'path';
 import { FLOORS_FILE } from './config';
+import { FileAttachment } from './types';
 
 const app = express();
 app.use(cors());
@@ -43,11 +44,11 @@ wsServer.on('connection', (ws) => {
 
 app.post('/', async (req, res) => {
   const message = req.body.TextBody as string;
-  const attachments = req.body.Attachments as { Content: string }[];
+  const attachments = req.body.Attachments as FileAttachment[];
   let imageFile = '';
 
   if (attachments[0] && attachments[0].Content) {
-    imageFile = saveImage(attachments[0].Content);
+    imageFile = await saveImage(attachments[0]);
   }
 
   connectedWS.send(

@@ -28,8 +28,11 @@ export default function FloorItem({ floor, active, onClick, disabled }: FloorIte
 
   if (active) {
     containerStyles = { ...containerStyles };
-    leftContainerStyles = { ...leftContainerStyles, backgroundColor: 'rgba(80, 80, 210, 1)' };
-    rightContainerStyles = { ...rightContainerStyles, backgroundColor: 'rgba(255, 255, 255, 0.1)' };
+    leftContainerStyles = { ...leftContainerStyles, backgroundColor: 'var(--accent-color)' };
+    rightContainerStyles = {
+      ...rightContainerStyles,
+      backgroundColor: 'var(--accent-color-light)',
+    };
   }
 
   return (
@@ -38,7 +41,7 @@ export default function FloorItem({ floor, active, onClick, disabled }: FloorIte
         style={{
           display: 'flex',
           justifyContent: 'center',
-          fontSize: 35,
+          fontSize: 40,
           fontWeight: 700,
           padding: 20,
           minWidth: 80,
@@ -49,8 +52,8 @@ export default function FloorItem({ floor, active, onClick, disabled }: FloorIte
       </div>
 
       <div
-        className="grid grid-cols-2 p-5"
-        style={{ flexGrow: 1, gap: 20, ...rightContainerStyles }}
+        className="grid grid-cols-2 p-8"
+        style={{ flexGrow: 1, gap: 30, ...rightContainerStyles }}
       >
         {floor.companies.map((c, i) => (
           <FloorCompanyItem key={i} company={c} />

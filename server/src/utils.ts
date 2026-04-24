@@ -2,8 +2,9 @@ import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import { ActionSequence } from './schema';
 import fs from 'fs';
+import sharp from 'sharp';
 import crypto from 'crypto';
-import { FloorAction, FloorData } from './types';
+import { FileAttachment, FloorAction, FloorData } from './types';
 import { FLOORS_FILE } from './config';
 
 const openAIClient = new OpenAI({
@@ -47,8 +48,8 @@ export function writeFloorsFile(writer: (data: FloorData) => FloorData) {
   fs.writeFileSync(FLOORS_FILE, JSON.stringify(writer(data)));
 }
 
-export function saveImage(base64Image: string) {
-  const hash = crypto.createHash('sha256').update(base64Image).digest('hex');
+export async function saveImage(file: FileAttachment) {
+  const hash = crypto.createHash('sha256').update(file.Content).digest('hex');
 
   const fileName = hash + '.png';
   const filePath = `./public/files/${fileName}`;
@@ -58,9 +59,16 @@ export function saveImage(base64Image: string) {
     return `http://localhost:8083/files/${fileName}`;
   }
 
-  fs.writeFile(filePath, base64Image, { encoding: 'base64' }, function () {
-    console.log('File created');
-  });
+  const buffer = Buffer.from(file.Content, 'base64');
+  const image = sharp(buffer);
+  const metadata = await image.metadata();
 
+  if (!metadata.width || !metadata.height || !metadata.channels) {
+    throw new Error('Invalid input image metadata');
+  }
+
+  await image.png().toFile(filePath);
+
+  console.log('File created');
   return `http://localhost:8083/files/${fileName}`;
 }

@@ -3,9 +3,6 @@ export default function Footer() {
     <div
       className="flex gap-10"
       style={{
-        margin: '0 auto',
-        maxWidth: 900,
-        marginTop: 55,
         lineHeight: 1.5,
         fontSize: 10,
         opacity: 0.8,
