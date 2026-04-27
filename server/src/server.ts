@@ -2,10 +2,11 @@ import { WebSocket, WebSocketServer } from 'ws';
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
-import { askFloorManager, saveImage, writeFloorsFile } from './utils';
+import { askFloorManager } from './utils';
 import path from 'path';
 import { FLOORS_FILE } from './config';
-import { FileAttachment } from './types';
+import { FileAttachment, SocketAction } from './types';
+import { processActions } from './actions';
 
 const app = express();
 app.use(cors());
@@ -13,29 +14,34 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 app.use(express.json({ limit: '5mb' }));
 
-let connectedWS: WebSocket;
+let client: WebSocket;
 
 const wsServer = new WebSocketServer({
   port: 8082,
 });
 
+const sendAction = (action: SocketAction) => {
+  if (client && client.readyState === WebSocket.OPEN) {
+    client.send(JSON.stringify(action));
+  } else {
+    console.warn('No clients connected to receive the message');
+  }
+};
+
+const sendUpdate = () => {
+  var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
+  sendAction({ type: 'floors:update', payload: data.floors });
+};
+
 wsServer.on('connection', (ws) => {
   console.log('Client connected');
+  client = ws;
 
-  connectedWS = ws;
-
-  const sendFloorUpdate = () => {
-    var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
-    ws.send(JSON.stringify({ type: 'floors:update', payload: data.floors }));
-  };
-
+  // Log errors
   ws.on('error', console.error);
 
-  sendFloorUpdate();
-
-  fs.watch(FLOORS_FILE, () => {
-    sendFloorUpdate();
-  });
+  // Send initial update when a client connects
+  sendUpdate();
 
   ws.on('close', () => {
     console.log('Client disconnected');
@@ -43,108 +49,25 @@ wsServer.on('connection', (ws) => {
 });
 
 app.post('/', async (req, res) => {
-  const message = req.body.TextBody as string;
-  const attachments = req.body.Attachments as FileAttachment[];
-  let imageFile = '';
+  sendAction({
+    type: 'email:processing',
+    payload: { message: 'Processing email...' },
+  });
 
-  if (attachments[0] && attachments[0].Content) {
-    imageFile = await saveImage(attachments[0]);
-  }
+  const response = await askFloorManager(req.body.TextBody as string);
 
-  connectedWS.send(
-    JSON.stringify({ type: 'email:processing', payload: { message: 'Processing email...' } })
-  );
+  console.log(response);
 
-  const answer = await askFloorManager(message);
+  await processActions(response.actions, req.body.Attachments as FileAttachment[]);
 
-  connectedWS.send(JSON.stringify({ type: 'email:processed', payload: answer }));
+  sendAction({
+    type: 'email:processed',
+    payload: response,
+  });
 
-  console.log(answer);
-
-  for (const action of answer.actions) {
-    switch (action.type) {
-      case 'CHANGE_IMAGE':
-        writeFloorsFile((data) => {
-          data.floors = data.floors.map((f) => {
-            const foundIndex = f.companies.findIndex((c) =>
-              c.name.toLowerCase().includes(action.companyName.toLowerCase())
-            );
-
-            if (foundIndex >= 0) {
-              if (action.shouldBeChanged) {
-                f.companies[foundIndex].logo = imageFile;
-              } else {
-                f.companies[foundIndex].logo = '';
-              }
-            }
-
-            return f;
-          });
-
-          return data;
-        });
-        break;
-      case 'UPDATE_COMPANY':
-        // Update company action
-        writeFloorsFile((data) => {
-          data.floors = data.floors.map((f) => {
-            const foundIndex = f.companies.findIndex((c) =>
-              c.name.toLowerCase().includes(action.findName.toLowerCase())
-            );
-
-            if (foundIndex >= 0) {
-              f.companies[foundIndex] = {
-                ...f.companies[foundIndex],
-                name: action.replaceWith ? action.replaceWith : f.companies[foundIndex].name,
-                //logo: action.image ? imageFile : ""
-              };
-
-              if (action.image !== null) {
-                f.companies[foundIndex].logo = action.image ? imageFile : '';
-              }
-            }
-
-            return f;
-          });
-
-          return data;
-        });
-        break;
-      case 'ADD_COMPANY':
-        // Add company action
-        writeFloorsFile((data) => {
-          data.floors = data.floors.map((f) => {
-            if (action.floor !== 0 && action.floor === f.num) {
-              f.companies.push({ name: action.name, logo: action.image ? imageFile : '' });
-            }
-
-            return f;
-          });
-
-          return data;
-        });
-        break;
-      case 'DELETE_COMPANY':
-        // Delete company action
-        writeFloorsFile((data) => {
-          data.floors = data.floors.map((f) => {
-            f.companies = f.companies.filter(
-              (c) => !c.name.toLowerCase().includes(action.name.toLowerCase())
-            );
-
-            return f;
-          });
-
-          return data;
-        });
-    }
-  }
-
-  res.send('email recieved');
+  res.send('mail recieved and processed');
 });
 
-app.listen(8083, () => {
-  console.log('Server listening on port 8083');
-});
+app.listen(8083, () => console.log('Server listening on port 8083'));
 
 console.log(`Websocket is running on ws://localhost:${wsServer.options.port}`);

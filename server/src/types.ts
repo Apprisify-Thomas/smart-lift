@@ -4,6 +4,11 @@ export type FloorData = {
   floors: Floor[];
 };
 
+export type SocketAction =
+  | { type: 'floors:update'; payload: Floor[] }
+  | { type: 'email:processing'; payload: { message: string } }
+  | { type: 'email:processed'; payload: any };
+
 export type AddCompanyAction = {
   type: 'ADD_COMPANY';
   floor: number;

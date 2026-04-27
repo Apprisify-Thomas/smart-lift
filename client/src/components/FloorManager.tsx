@@ -1,5 +1,5 @@
 import type { Floor } from '../types';
-import Building3D from './Building3D';
+import LiftBuilding from './LiftBuilding';
 import FloorItem from './FloorItem';
 
 export default function FloorManager({
@@ -15,7 +15,7 @@ export default function FloorManager({
 }) {
   return (
     <div className="flex gap-10 mb-30">
-      <div className="flex flex-col divide-y-2 divide-zinc-200 w-full" style={{}}>
+      <div className="flex flex-col divide-y-2 divide-zinc-500 w-full">
         {floors.map((f, i) => (
           <FloorItem
             key={i}
@@ -27,7 +27,7 @@ export default function FloorManager({
         ))}
       </div>
 
-      {/* <Building3D activeFloor={activeFloor} totalFloors={5} /> */}
+      <LiftBuilding activeFloor={activeFloor} totalFloors={5} />
     </div>
   );
 }

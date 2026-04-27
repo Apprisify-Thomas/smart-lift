@@ -95,7 +95,7 @@ export default function NewsWidget() {
           <div
             key={idx}
             className={`h-1 flex-1 rounded-full transition-colors ${
-              idx === currentIndex ? 'bg-accent' : 'bg-neutral-600'
+              idx === currentIndex ? 'bg-secondary' : 'bg-neutral-600'
             }`}
           />
         ))}

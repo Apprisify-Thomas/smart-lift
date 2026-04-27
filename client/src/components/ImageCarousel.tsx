@@ -12,7 +12,7 @@ function ImageSlide({
 }) {
   const styles: CSSProperties = {
     position: 'absolute',
-    filter: 'contrast(1) brightness(1.2) saturate(0.75)',
+    filter: 'brightness(1.25)',
     left: 0,
     top: 0,
     right: 0,
@@ -32,6 +32,7 @@ function ImageSlide({
     <div
       style={{
         position: 'relative',
+        transform: 'rotateY(-20deg)',
       }}
     >
       <img src={path} style={styles} />
@@ -64,6 +65,9 @@ export default function ImageCarousel() {
 
   const styles: CSSProperties = {
     position: 'relative',
+    perspective: '1000px',
+    width: '100%',
+    height: '100%',
   };
 
   return (

@@ -4,8 +4,8 @@
 :root {
   --bg-color: #000000;
   --text-color: #ffffff;
-  --accent-color: #9d52ff;
-  --secondary-color: #777777;
+  --accent-color: #8521ff;
+  --secondary-color: #1cffa8;
   --accent-color-light: rgba(255, 255, 255, 0.15);
 }
 
@@ -20,9 +20,13 @@ body {
 }
 
 .background-blur {
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .bg-accent {
   background-color: var(--accent-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
 }

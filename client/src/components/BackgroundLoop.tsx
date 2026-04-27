@@ -10,7 +10,7 @@ export default function BackgroundLoop() {
           muted
           width="100%"
           height="auto"
-          style={{ objectFit: 'cover', filter: 'hue-rotate(-20deg)' }}
+          style={{ objectFit: 'cover', filter: 'hue-rotate(-10deg)' }}
         />
       </div>
     </>

@@ -1,5 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing';
 import { useRef, useMemo } from 'react';
 import {
   BoxGeometry,
@@ -30,12 +31,8 @@ function Floor({ position, isActive }: { position: [number, number, number]; isA
     <group position={position}>
       {/* Floor platform - simple wireframe */}
       <mesh ref={meshRef} position={[0, 0, 0]}>
-        <boxGeometry args={[0.5, 0.02, 0.5]} />
-        <meshBasicMaterial
-          color={isActive ? '#ffff00' : '#008888'}
-          transparent
-          opacity={isActive ? 0.95 : 0.7}
-        />
+        <boxGeometry args={[0.4, 0.02, 0.4]} />
+        <meshBasicMaterial color={isActive ? '#55cc66' : '#008888'} />
       </mesh>
     </group>
   );
@@ -53,8 +50,8 @@ function BuildingStructure() {
   return (
     <group ref={buildingRef}>
       <lineSegments>
-        <edgesGeometry args={[new BoxGeometry(0.5, 8, 0.5)]} />
-        <lineBasicMaterial color="#00aaaa" transparent opacity={0.5} />
+        <edgesGeometry args={[new BoxGeometry(0.4, 8, 0.4)]} />
+        <lineBasicMaterial color="#00aaaa" transparent opacity={1} />
       </lineSegments>
     </group>
   );
@@ -70,13 +67,13 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
     let delta = 0;
     if (liftRef.current) {
       const maxOffset = totalFloors > 1 ? 5 / (totalFloors - 1) : 0;
-      const targetY = -2.5 + (activeFloor - 1) * maxOffset;
+      const targetY = -2.53 + (activeFloor - 1) * maxOffset;
       const currentY = liftRef.current.position.y;
       delta = targetY - currentY;
       if (Math.abs(delta) < 0.01) {
         liftRef.current.position.y = targetY;
       } else {
-        liftRef.current.position.y += delta * 0.02; // Slower transition for lift-like movement
+        liftRef.current.position.y += delta * 0.04; // Slower transition for lift-like movement
       }
     }
 
@@ -99,39 +96,42 @@ function Lift({ activeFloor, totalFloors }: { activeFloor: number; totalFloors: 
 
   return (
     <group position={[-0, 0, 0]}>
-      <lineSegments ref={shaftRef}>
+      {/* <lineSegments ref={shaftRef}>
         <edgesGeometry args={[new BoxGeometry(0.3, 8, 0.3)]} />
         <lineBasicMaterial color="#00ffff" transparent opacity={0.5} />
-      </lineSegments>
+      </lineSegments> */}
       <group ref={liftRef} position={[0, -2, 0]}>
         {/* Main lift body */}
+        <lineSegments>
+          <edgesGeometry args={[new BoxGeometry(0.2, 0.4, 0.2)]} />
+          <lineBasicMaterial color="#000000" />
+        </lineSegments>
         <mesh>
-          <boxGeometry args={[0.3, 0.5, 0.3]} />
+          <boxGeometry args={[0.2, 0.4, 0.2]} />
           <meshStandardMaterial
-            color="#ffff00"
-            emissive="#ffff00"
-            emissiveIntensity={1.2}
+            emissive="#55cc66"
+            emissiveIntensity={2.5}
             metalness={0.2}
             roughness={0.15}
             transparent
-            opacity={0.8}
+            opacity={1}
           />
         </mesh>
 
-        <mesh position={[-0.02, -0.1, 0.15]}>
+        {/* <mesh position={[-0.02, -0.1, 0.15]}>
           <boxGeometry args={[0.12, 0.3, 0.02]} />
           <meshStandardMaterial color="#000000" roughness={0.1} />
         </mesh>
         <mesh position={[0.02, -0.1, 0.15]}>
           <boxGeometry args={[0.12, 0.3, 0.02]} />
           <meshStandardMaterial color="#000000" roughness={0.1} />
-        </mesh>
+        </mesh> */}
       </group>
     </group>
   );
 }
 
-function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
+export default function LiftBuilding({ activeFloor, totalFloors }: Building3DProps) {
   const floors = useMemo(() => {
     return Array.from({ length: totalFloors }, (_, i) => {
       const floorNum = i + 1;
@@ -146,15 +146,19 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
   }, [activeFloor, totalFloors]);
 
   return (
-    <div style={{ width: '100px', height: '100%' }}>
-      <Canvas camera={{ position: [5, 2, 5], fov: 50 }}>
+    <div style={{ width: '100px' }}>
+      <Canvas>
+        <PerspectiveCamera makeDefault position={[6, 2.3, 2.5]} fov={50} />
         {/* Lighting - brighter for wireframe */}
-        <ambientLight intensity={1.0} color="#ffffff" />
+        {/* <ambientLight intensity={1.0} color="#ffffff" />
         <pointLight position={[10, 10, 10]} intensity={2} color="#ffffff" />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#00ffff" />
-
+        <pointLight position={[-10, -10, -10]} intensity={1} color="#00ffff" /> */}
+        {/* <EffectComposer>
+          <Bloom mipmapBlur luminanceThreshold={1} levels={10} intensity={0.1 * 4} />
+          <ToneMapping />
+        </EffectComposer> */}
         {/* Building structure */}
-        <group position={[-0, 1, 0]}>
+        <group position={[-0, 0.2, 0]}>
           <BuildingStructure />
           <Lift activeFloor={activeFloor} totalFloors={totalFloors} />
 
@@ -170,18 +174,10 @@ function FuturisticBuilding({ activeFloor, totalFloors }: Building3DProps) {
           enablePan={false}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2}
-          autoRotate
-          autoRotateSpeed={1}
+          // autoRotate
+          // autoRotateSpeed={1}
         />
       </Canvas>
-    </div>
-  );
-}
-
-export default function Building3D({ activeFloor, totalFloors }: Building3DProps) {
-  return (
-    <div>
-      <FuturisticBuilding activeFloor={activeFloor} totalFloors={totalFloors} />
     </div>
   );
 }
