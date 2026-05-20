@@ -14,6 +14,7 @@ export type AddCompanyAction = {
   floor: number;
   name: string;
   image: boolean;
+  index: number | null;
 };
 
 export type UpdateCompanyAction = {
@@ -21,6 +22,7 @@ export type UpdateCompanyAction = {
   findName: string;
   replaceWith: string;
   image: boolean;
+  index: number | null;
 };
 
 export type DeleteCompanyAction = {
@@ -34,10 +36,17 @@ export type ChangeImageAction = {
   shouldBeChanged: boolean;
 };
 
+export type MoveCompanyAction = {
+  type: 'MOVE_COMPANY';
+  name: string;
+  toLevel: number;
+};
+
 export type FloorAction =
   | AddCompanyAction
   | UpdateCompanyAction
   | DeleteCompanyAction
+  | MoveCompanyAction
   | ChangeImageAction;
 
 export type FileAttachment = {

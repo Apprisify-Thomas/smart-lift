@@ -23,7 +23,14 @@ export async function askFloorManager(command: string) {
           update a company name, delete or add a new company. This should result in a action sequence. If the user wants to change the image of a company, you should only change the image if the user explicitly says so.
           The building has ${data.floors.length} floors. Here is the current state of the building: ${JSON.stringify(
             data
-          )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.`,
+          )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.
+          
+          Detailed description of allowed actions:
+          'ADD_COMPANY': Adds a company to a specific floor and moves it to a index pos if needed. This index is for my splice function so it should be possible to move a company before and after a target company.
+          'MOVE_COMPANY': Moves a company from one floor to another and removes the old one. Only use this action if the user specifies a target floor otherwise use the 'UPDATE_COMPANY' action for index movement
+          'DELETE_COMPANY': Removes a company name from all floors if found
+          'UPDATE_COMPANY': Should update a company name or logo and its index position within the companies array. This index is for my splice function so it should be possible to move a company before and after a target company.
+          `,
       },
       {
         role: 'user',
