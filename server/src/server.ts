@@ -65,6 +65,8 @@ app.post('/', async (req, res) => {
     payload: response,
   });
 
+  sendUpdate();
+
   res.send('mail recieved and processed');
 });
 
