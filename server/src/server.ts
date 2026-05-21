@@ -7,6 +7,7 @@ import path from 'path';
 import { FLOORS_FILE } from './config';
 import { FileAttachment, SocketAction } from './types';
 import { processActions } from './actions';
+import { Floor } from '@client/types';
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,22 @@ const wsServer = new WebSocketServer({
   port: 8082,
 });
 
+function prepareFloors(floors: Floor[]): Floor[] {
+  return floors.map((f) => {
+    if (f.eventBanner) {
+      const now = new Date();
+      const fromDate = f.eventBanner.fromDate ? new Date(f.eventBanner.fromDate) : null;
+      const toDate = f.eventBanner.toDate ? new Date(f.eventBanner.toDate) : null;
+
+      if ((fromDate && now < fromDate) || (toDate && now > toDate)) {
+        delete f.eventBanner;
+      }
+    }
+
+    return f;
+  });
+}
+
 const sendAction = (action: SocketAction) => {
   if (client && client.readyState === WebSocket.OPEN) {
     client.send(JSON.stringify(action));
@@ -30,11 +47,13 @@ const sendAction = (action: SocketAction) => {
 
 const sendUpdate = () => {
   var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
-  sendAction({ type: 'floors:update', payload: data.floors });
+  sendAction({ type: 'floors:update', payload: prepareFloors(data.floors) });
 };
 
 wsServer.on('connection', (ws) => {
   console.log('Client connected');
+
+  // Just one client allowed
   client = ws;
 
   // Log errors
@@ -69,6 +88,11 @@ app.post('/', async (req, res) => {
 
   res.send('mail recieved and processed');
 });
+
+// Update client every 30 seconds in case of external changes to the floors data
+setInterval(() => {
+  sendUpdate();
+}, 30000);
 
 app.listen(8083, () => console.log('Server listening on port 8083'));
 

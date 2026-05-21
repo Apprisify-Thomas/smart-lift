@@ -42,12 +42,38 @@ export type MoveCompanyAction = {
   toLevel: number;
 };
 
+export type AddEventBannerAction = {
+  type: 'ADD_EVENT_BANNER';
+  floor: number;
+  title: string | null;
+  description: string | null;
+  fromDate: string | null;
+  toDate: string | null;
+};
+
+export type UpdateEventBannerAction = {
+  type: 'UPDATE_EVENT_BANNER';
+  floor: number;
+  title: string | null;
+  description: string | null;
+  fromDate: string | null;
+  toDate: string | null;
+};
+
+export type RemoveEventBannerAction = {
+  type: 'REMOVE_EVENT_BANNER';
+  floor: number;
+};
+
 export type FloorAction =
   | AddCompanyAction
   | UpdateCompanyAction
   | DeleteCompanyAction
   | MoveCompanyAction
-  | ChangeImageAction;
+  | RemoveEventBannerAction
+  | UpdateEventBannerAction
+  | ChangeImageAction
+  | AddEventBannerAction;
 
 export type FileAttachment = {
   Content: string;

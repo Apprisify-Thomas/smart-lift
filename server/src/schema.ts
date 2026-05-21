@@ -27,11 +27,37 @@ export const MoveCompanyAction = z.object({
   toLevel: z.number(),
 });
 
+export const AddEventBannerAction = z.object({
+  type: z.literal('ADD_EVENT_BANNER'),
+  floor: z.number(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  fromDate: z.string().nullable(),
+  toDate: z.string().nullable(),
+});
+
+export const UpdateEventBannerAction = z.object({
+  type: z.literal('UPDATE_EVENT_BANNER'),
+  floor: z.number(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  fromDate: z.string().nullable(),
+  toDate: z.string().nullable(),
+});
+
+export const RemoveEventBannerAction = z.object({
+  type: z.literal('REMOVE_EVENT_BANNER'),
+  floor: z.number(),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
   DeleteCompanyAction,
   MoveCompanyAction,
+  AddEventBannerAction,
+  RemoveEventBannerAction,
+  UpdateEventBannerAction,
 ]);
 
 export const ActionSequence = z.object({

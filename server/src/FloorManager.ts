@@ -1,7 +1,7 @@
-import { Floor, FloorCompany } from '@client/types';
+import { Floor, FloorCompany, FloorEventBanner } from '@client/types';
 import fs from 'fs';
 
-export class Building {
+export class FloorManager {
   private floors: Floor[] = [];
 
   constructor(private file: string) {
@@ -91,7 +91,34 @@ export class Building {
     targetFloor.companies.push(companyToMove);
   }
 
-  swapCompanies(name1: string, name2: string): void {}
+  addEventBannerToFloor(num: number, banner: FloorEventBanner): void {
+    for (const floor of this.floors) {
+      if (floor.num === num) {
+        floor.eventBanner = banner;
+
+        break;
+      }
+    }
+  }
+
+  removeEventBannerFromFloor(num: number): void {
+    for (const floor of this.floors) {
+      if (floor.num === num) {
+        delete floor.eventBanner;
+        break;
+      }
+    }
+  }
+
+  updateEventBanner(num: number, banner: Partial<FloorEventBanner>): void {
+    for (const floor of this.floors) {
+      if (floor.num === num) {
+        floor.eventBanner = { ...floor.eventBanner, ...banner };
+
+        break;
+      }
+    }
+  }
 
   read(): void {
     const data = JSON.parse(fs.readFileSync(this.file).toString());

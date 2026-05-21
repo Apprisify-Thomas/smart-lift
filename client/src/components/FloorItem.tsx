@@ -51,13 +51,25 @@ export default function FloorItem({ floor, active, onClick, disabled }: FloorIte
         {floor.num}
       </div>
 
-      <div
-        className="grid grid-cols-2 p-8"
-        style={{ flexGrow: 1, gap: 30, ...rightContainerStyles }}
-      >
-        {floor.companies.map((c, i) => (
-          <FloorCompanyItem key={i} company={c} />
-        ))}
+      <div className="flex-grow">
+        <div
+          className="grid grid-cols-2 p-8"
+          style={{ flexGrow: 1, gap: 30, ...rightContainerStyles }}
+        >
+          {floor.companies.map((c, i) => (
+            <FloorCompanyItem key={i} company={c} />
+          ))}
+        </div>
+        {floor.eventBanner && (
+          <div
+            style={{
+              backgroundImage: `url(${floor.eventBanner.imageUrl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              height: '80px',
+            }}
+          />
+        )}
       </div>
     </div>
   );

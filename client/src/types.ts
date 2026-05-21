@@ -5,7 +5,7 @@ export type Floor = {
 };
 
 export type FloorEventBanner = {
-  imageUrl: string;
+  imageUrl?: string;
   title?: string;
   description?: string;
   fromDate?: string;

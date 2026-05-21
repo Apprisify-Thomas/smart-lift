@@ -1,10 +1,10 @@
 import { FileAttachment, FloorAction } from './types';
 import { saveImage } from './utils';
-import { Building } from './Building';
+import { FloorManager } from './FloorManager';
 import { FLOORS_FILE } from './config';
 
 export async function processActions(actions: FloorAction[], attachments: FileAttachment[]) {
-  const building = new Building(FLOORS_FILE);
+  const floorManager = new FloorManager(FLOORS_FILE);
 
   let imageFile = '';
 
@@ -15,7 +15,7 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
   for (const action of actions) {
     switch (action.type) {
       case 'UPDATE_COMPANY':
-        building.updateCompany(
+        floorManager.updateCompany(
           action.findName,
           {
             name: action.replaceWith,
@@ -23,10 +23,10 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           },
           action.index
         );
-        building.save();
+        floorManager.save();
         break;
       case 'ADD_COMPANY':
-        building.addCompanyToFloor(
+        floorManager.addCompanyToFloor(
           action.floor,
           {
             name: action.name,
@@ -34,15 +34,39 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           },
           action.index
         );
-        building.save();
+        floorManager.save();
         break;
       case 'DELETE_COMPANY':
-        building.removeCompanyByName(action.name);
-        building.save();
+        floorManager.removeCompanyByName(action.name);
+        floorManager.save();
         break;
       case 'MOVE_COMPANY':
-        building.moveCompanyToFloor(action.name, action.toLevel);
-        building.save();
+        floorManager.moveCompanyToFloor(action.name, action.toLevel);
+        floorManager.save();
+        break;
+      case 'ADD_EVENT_BANNER':
+        floorManager.addEventBannerToFloor(action.floor, {
+          title: action.title ?? undefined,
+          description: action.description ?? undefined,
+          imageUrl: imageFile,
+          fromDate: action.fromDate ?? undefined,
+          toDate: action.toDate ?? undefined,
+        });
+        floorManager.save();
+        break;
+      case 'REMOVE_EVENT_BANNER':
+        floorManager.removeEventBannerFromFloor(action.floor);
+        floorManager.save();
+        break;
+      case 'UPDATE_EVENT_BANNER':
+        floorManager.updateEventBanner(action.floor, {
+          ...(action.title ? { title: action.title } : {}),
+          ...(action.description ? { description: action.description } : {}),
+          ...(imageFile ? { imageUrl: imageFile } : {}),
+          ...(action.fromDate ? { fromDate: action.fromDate } : {}),
+          ...(action.toDate ? { toDate: action.toDate } : {}),
+        });
+        floorManager.save();
         break;
     }
   }
