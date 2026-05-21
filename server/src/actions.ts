@@ -19,7 +19,7 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           action.findName,
           {
             name: action.replaceWith,
-            ...(action.image ? { logo: imageFile } : {}),
+            ...(action.image ? { logoUrl: imageFile } : {}),
           },
           action.index
         );
@@ -30,7 +30,7 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           action.floor,
           {
             name: action.name,
-            logo: action.image ? imageFile : '',
+            logoUrl: action.image ? imageFile : '',
           },
           action.index
         );

@@ -17,9 +17,9 @@ export default function FloorCompanyItem({ company }: { company: FloorCompany })
           justifyContent: 'center',
         }}
       >
-        {company.logo && (
+        {company.logoUrl && (
           <img
-            src={company.logo}
+            src={company.logoUrl}
             style={{
               maxHeight: 60,
               maxWidth: 110,
