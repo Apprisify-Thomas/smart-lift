@@ -11,7 +11,7 @@ export default function NewsWidget() {
     { title: 'Breaking News Updates will appear here', source: 'System' },
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch news from NewsAPI (free tier)
@@ -23,7 +23,6 @@ export default function NewsWidget() {
         );
         if (!response.ok) throw new Error('Failed to fetch news');
 
-        const text = await response.text();
         // Parse RSS feed - fallback to mock data if parsing fails
         const mockNews: NewsItem[] = [
           { title: 'Market opens with positive sentiment', source: 'Markets' },

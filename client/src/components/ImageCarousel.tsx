@@ -4,7 +4,6 @@ import type { CSSProperties } from 'react';
 function ImageSlide({
   path,
   isActive,
-  isTransitioning,
 }: {
   path: string;
   isActive: boolean;
