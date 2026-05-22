@@ -7,13 +7,16 @@ import Widgets from './components/Widgets';
 import FloorManager from './components/FloorManager';
 
 export default function App() {
-  const { lastMessage } = useWebSocket('ws://localhost:8082', {
-    shouldReconnect: () => {
-      return true;
-    },
-    reconnectAttempts: 60,
-    reconnectInterval: 3000,
-  });
+  const { lastMessage } = useWebSocket(
+    import.meta.env.VITE_APP_WEBSOCKET_URL ?? 'ws://localhost:8083',
+    {
+      shouldReconnect: () => {
+        return true;
+      },
+      reconnectAttempts: 60,
+      reconnectInterval: 3000,
+    }
+  );
 
   const [activeFloor, setActiveFloor] = useState(0);
   const [floors, setFloors] = useState<Floor[]>([]);
