@@ -8,6 +8,10 @@ export class FloorManager {
     this.read();
   }
 
+  getFloors(): Floor[] {
+    return this.floors;
+  }
+
   addCompanyToFloor(num: number, company: FloorCompany, index: number | null): void {
     for (const floor of this.floors) {
       if (floor.num === num) {
@@ -105,6 +109,7 @@ export class FloorManager {
     for (const floor of this.floors) {
       if (floor.num === num) {
         delete floor.eventBanner;
+
         break;
       }
     }

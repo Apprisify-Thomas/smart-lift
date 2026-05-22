@@ -4,7 +4,7 @@ import { ActionSequence } from './schema';
 import fs from 'fs';
 import sharp from 'sharp';
 import crypto from 'crypto';
-import { FileAttachment, FloorAction, FloorData } from './types';
+import { FileAttachment, FloorAction } from './types';
 import { FLOORS_FILE } from './config';
 
 const openAIClient = new OpenAI({
@@ -12,7 +12,8 @@ const openAIClient = new OpenAI({
 });
 
 export async function askFloorManager(command: string) {
-  var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
+  const data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
+  const date = new Date();
 
   const response = await openAIClient.responses.create({
     model: 'gpt-4o-mini',
@@ -25,11 +26,14 @@ export async function askFloorManager(command: string) {
             data
           )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.
           
+          The current date and time is ${date.toISOString()}. Use this if the user asks for a update on events.
+
           Detailed description of allowed actions:
           'ADD_COMPANY': Adds a company to a specific floor and moves it to a index pos if needed. This index is for my splice function so it should be possible to move a company before and after a target company.
           'MOVE_COMPANY': Moves a company from one floor to another and removes the old one. Only use this action if the user specifies a target floor otherwise use the 'UPDATE_COMPANY' action for index movement
           'DELETE_COMPANY': Removes a company name from all floors if found
           'UPDATE_COMPANY': Should update a company name or logo and its index position within the companies array. This index is for my splice function so it should be possible to move a company before and after a target company.
+          'SEND_STATUS': This is a special action that should be used if the user wants see the current state of the floors without making any changes. 
           `,
       },
       {
@@ -48,11 +52,6 @@ export async function askFloorManager(command: string) {
   });
 
   return JSON.parse(response.output_text) as { actions: FloorAction[] };
-}
-
-export function writeFloorsFile(writer: (data: FloorData) => FloorData) {
-  var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
-  fs.writeFileSync(FLOORS_FILE, JSON.stringify(writer(data)));
 }
 
 export async function saveImage(file: FileAttachment) {

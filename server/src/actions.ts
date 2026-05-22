@@ -1,16 +1,10 @@
-import { FileAttachment, FloorAction } from './types';
-import { saveImage } from './utils';
+import { FloorAction } from './types';
 import { FloorManager } from './FloorManager';
 import { FLOORS_FILE } from './config';
+import { sendResponseEmail } from './mail';
 
-export async function processActions(actions: FloorAction[], attachments: FileAttachment[]) {
+export async function processActions(actions: FloorAction[], imageFile?: string) {
   const floorManager = new FloorManager(FLOORS_FILE);
-
-  let imageFile = '';
-
-  if (attachments[0] && attachments[0].Content) {
-    imageFile = await saveImage(attachments[0]);
-  }
 
   for (const action of actions) {
     switch (action.type) {
@@ -24,6 +18,12 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           action.index
         );
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Company updated',
+          `<p>This is an response to your ui update.</p>`,
+          true
+        );
         break;
       case 'ADD_COMPANY':
         floorManager.addCompanyToFloor(
@@ -35,14 +35,32 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           action.index
         );
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Company added',
+          `<p>This is an response to your ui update.</p>`,
+          true
+        );
         break;
       case 'DELETE_COMPANY':
         floorManager.removeCompanyByName(action.name);
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Company deleted',
+          `<p>This is an response to your ui update.</p>`,
+          true
+        );
         break;
       case 'MOVE_COMPANY':
         floorManager.moveCompanyToFloor(action.name, action.toLevel);
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Company moved',
+          `<p>This is an response to your ui update.</p>`,
+          true
+        );
         break;
       case 'ADD_EVENT_BANNER':
         floorManager.addEventBannerToFloor(action.floor, {
@@ -53,10 +71,22 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           toDate: action.toDate ?? undefined,
         });
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Banner added',
+          `<p>This is an response to your ui update.</p>`,
+          true
+        );
         break;
       case 'REMOVE_EVENT_BANNER':
         floorManager.removeEventBannerFromFloor(action.floor);
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Banner removed',
+          `<p>You will find the current display state attached.</p>`,
+          true
+        );
         break;
       case 'UPDATE_EVENT_BANNER':
         floorManager.updateEventBanner(action.floor, {
@@ -67,6 +97,20 @@ export async function processActions(actions: FloorAction[], attachments: FileAt
           ...(action.toDate ? { toDate: action.toDate } : {}),
         });
         floorManager.save();
+
+        await sendResponseEmail(
+          'Smart Lift / Banner updated',
+          `<p>You will find the current display state attached.</p>`,
+          true
+        );
+        break;
+      case 'SEND_STATUS':
+        // No changes to be made, just send the current state of the floors + screenshot
+        await sendResponseEmail(
+          'Smart Lift / Status update',
+          `<pre>${JSON.stringify({ floors: floorManager.getFloors() }, null, 2)}</pre>`,
+          true
+        );
         break;
     }
   }

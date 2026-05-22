@@ -50,6 +50,10 @@ export const RemoveEventBannerAction = z.object({
   floor: z.number(),
 });
 
+export const SendStatusAction = z.object({
+  type: z.literal('SEND_STATUS'),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
@@ -58,6 +62,7 @@ export const Actions = z.union([
   AddEventBannerAction,
   RemoveEventBannerAction,
   UpdateEventBannerAction,
+  SendStatusAction,
 ]);
 
 export const ActionSequence = z.object({

@@ -65,6 +65,10 @@ export type RemoveEventBannerAction = {
   floor: number;
 };
 
+export type SendStatusAction = {
+  type: 'SEND_STATUS';
+};
+
 export type FloorAction =
   | AddCompanyAction
   | UpdateCompanyAction
@@ -73,7 +77,8 @@ export type FloorAction =
   | RemoveEventBannerAction
   | UpdateEventBannerAction
   | ChangeImageAction
-  | AddEventBannerAction;
+  | AddEventBannerAction
+  | SendStatusAction;
 
 export type FileAttachment = {
   Content: string;
