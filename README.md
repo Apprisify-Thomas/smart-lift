@@ -17,4 +17,14 @@
 - FloorItem Label ändern
 - FloorItem Image ändern
 - FloorItem Image hinzufügen
-- FloorItem Event anlegen (Zeitlich Von-Bis)
+
+- (noch offen) Tauschen von Firmen
+- (noch offen) Fehlerbehandlung + E-Mail response: Bild zu groß,
+
+NEU:
+
+- Etagengebundenes EventBanner anlegen (Zeitlich Von-Bis)
+- Verschieben von Firmen
+- Firmen in der Reihenfolge verschieben
+- Status screenshot anfordern
+- Result screenshot wird nach Änderung mitgeschickt
