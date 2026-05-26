@@ -10,12 +10,7 @@
           "name": "Deutsche Telekom",
           "logoUrl": "http://localhost:8083/logos/deutsche-telekom.svg"
         }
-      ],
-      "eventBanner": {
-        "title": "Tech Summit 2024",
-        "description": "Join us for the annual Tech Summit where industry leaders discuss the future of technology.",
-        "imageUrl": "http://localhost:8083/events/tech-summit-2024.jpg"
-      }
+      ]
     },
     {
       "num": 3,
