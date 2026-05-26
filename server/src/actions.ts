@@ -2,6 +2,7 @@ import { FloorAction } from './types';
 import { FloorManager } from './FloorManager';
 import { FLOORS_FILE } from './config';
 import { sendResponseEmail } from './mail';
+import fs from 'fs';
 
 export async function processActions(actions: FloorAction[], imageFile?: string) {
   const floorManager = new FloorManager(FLOORS_FILE);
@@ -112,6 +113,14 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
           true
         );
         break;
+      case 'RESET_TO_FACTORY':
+        fs.copyFileSync('./floors.example.json', FLOORS_FILE);
+
+        await sendResponseEmail(
+          'Smart Lift / Reset',
+          `Das Lift UI wurde auf den Ursprungsstand zurückgesetzt.`,
+          true
+        );
     }
   }
 }

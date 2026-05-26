@@ -54,6 +54,10 @@ export const SendStatusAction = z.object({
   type: z.literal('SEND_STATUS'),
 });
 
+export const ResetAction = z.object({
+  type: z.literal('RESET_TO_FACTORY'),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
@@ -63,6 +67,7 @@ export const Actions = z.union([
   RemoveEventBannerAction,
   UpdateEventBannerAction,
   SendStatusAction,
+  ResetAction,
 ]);
 
 export const ActionSequence = z.object({
