@@ -5,14 +5,14 @@ import fs from 'fs';
 import sharp from 'sharp';
 import crypto from 'crypto';
 import { FileAttachment, FloorAction } from './types';
-import { FLOORS_FILE } from './config';
+import { DATA_FILE } from './config';
 
 const openAIClient = new OpenAI({
   apiKey: process.env.OPEN_AI_APIKEY,
 });
 
 export async function askFloorManager(command: string) {
-  const data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
+  const data = JSON.parse(fs.readFileSync(DATA_FILE).toString());
   const date = new Date();
 
   const response = await openAIClient.responses.create({

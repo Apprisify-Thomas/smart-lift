@@ -1,5 +1,5 @@
 import { WebSocket, WebSocketServer } from 'ws';
-import { FLOORS_FILE } from './config';
+import { DATA_FILE } from './config';
 import fs from 'fs';
 import { SocketAction } from './types';
 import { Floor } from '@client/types';
@@ -24,7 +24,7 @@ export class LiftSocket {
   }
 
   sendFloorsUpdate(client?: WebSocket) {
-    var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString()) as { floors: Floor[] };
+    var data = JSON.parse(fs.readFileSync(DATA_FILE).toString()) as { floors: Floor[] };
 
     const updatedFloors = data.floors.map((f) => {
       if (f.eventBanner) {

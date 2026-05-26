@@ -1,4 +1,4 @@
 node_modules
 .env
-floors.json
+data.json
 public/files

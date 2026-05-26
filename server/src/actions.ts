@@ -1,11 +1,11 @@
 import { FloorAction } from './types';
 import { FloorManager } from './FloorManager';
-import { FLOORS_FILE } from './config';
+import { DATA_FILE } from './config';
 import { sendResponseEmail } from './mail';
 import fs from 'fs';
 
 export async function processActions(actions: FloorAction[], imageFile?: string) {
-  const floorManager = new FloorManager(FLOORS_FILE);
+  const floorManager = new FloorManager(DATA_FILE);
 
   for (const action of actions) {
     switch (action.type) {
@@ -114,7 +114,7 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
         );
         break;
       case 'RESET_TO_FACTORY':
-        fs.copyFileSync('./floors.example.json', FLOORS_FILE);
+        fs.copyFileSync('./floors.example.json', DATA_FILE);
 
         await sendResponseEmail(
           'Smart Lift / Reset',

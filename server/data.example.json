@@ -1,0 +1,86 @@
+{
+  "events": [
+    {
+      "title": "Siemens Annual Conference",
+      "description": "Join us for the Siemens Annual Conference on the 4th floor.",
+      "floor": 4,
+      "imageUrl": "http://localhost:8083/events/siemens-conference.jpg",
+      "fromDate": "2024-07-01T09:00:00Z",
+      "toDate": "2024-07-01T17:00:00Z"
+    },
+    {
+      "title": "BMW Product Launch",
+      "description": "Experience the latest innovations from BMW on the 3rd floor.",
+      "floor": 3,
+      "imageUrl": "http://localhost:8083/events/bmw-launch.jpg",
+      "fromDate": "2024-07-02T10:00:00Z",
+      "toDate": "2024-07-02T18:00:00Z"
+    },
+    {
+      "title": "Bayer Health Symposium",
+      "description": "Discover advancements in healthcare with Bayer on the 2nd floor.",
+      "floor": 2,
+      "imageUrl": "http://localhost:8083/events/bayer-symposium.jpg",
+      "fromDate": "2024-07-03T08:00:00Z",
+      "toDate": "2024-07-03T16:00:00Z"
+    },
+    {
+      "title": "KPMG Financial Workshop",
+      "description": "Enhance your financial skills with KPMG on the 1st floor.",
+      "floor": 1,
+      "imageUrl": "http://localhost:8083/events/kpmg-workshop.jpg",
+      "fromDate": "2024-07-04T09:30:00Z",
+      "toDate": "2024-07-04T15:30:00Z"
+    },
+    {
+      "title": "Deutsche Bank Investment Seminar",
+      "description": "Learn about investment strategies with Deutsche Bank on the ground floor.",
+      "floor": 0,
+      "imageUrl": "http://localhost:8083/events/deutsche-bank-seminar.jpg",
+      "fromDate": "2024-07-05T11:00:00Z",
+      "toDate": "2024-07-05T17:00:00Z"
+    }
+  ],
+  "floors": [
+    {
+      "num": 4,
+      "companies": [
+        { "name": "Siemens", "logoUrl": "http://localhost:8083/logos/siemens.svg" },
+        { "name": "SAP", "logoUrl": "http://localhost:8083/logos/sap.svg" },
+        { "name": "Bosch", "logoUrl": "http://localhost:8083/logos/bosch.svg" },
+        {
+          "name": "Deutsche Telekom",
+          "logoUrl": "http://localhost:8083/logos/deutsche-telekom.svg"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "companies": [
+        { "name": "Adidas", "logoUrl": "http://localhost:8083/logos/adidas.svg" },
+        { "name": "BMW", "logoUrl": "http://localhost:8083/logos/bmw.svg" },
+        { "name": "Volkswagen", "logoUrl": "http://localhost:8083/logos/volkswagen.svg" },
+        { "name": "Allianz", "logoUrl": "http://localhost:8083/logos/allianz.svg" }
+      ]
+    },
+    {
+      "num": 2,
+      "companies": [
+        { "name": "Bayer", "logoUrl": "http://localhost:8083/logos/bayer.svg" },
+        { "name": "BASF", "logoUrl": "http://localhost:8083/logos/basf.svg" }
+      ]
+    },
+    {
+      "num": 1,
+      "companies": [{ "name": "KPMG", "logoUrl": "http://localhost:8083/logos/kpmg.svg" }]
+    },
+    {
+      "num": 0,
+      "companies": [
+        { "name": "Deutsche Bank", "logoUrl": "http://localhost:8083/logos/deutsche-bank.svg" },
+        { "name": "Commerzbank", "logoUrl": "http://localhost:8083/logos/commerzbank.svg" },
+        { "name": "Merck", "logoUrl": "http://localhost:8083/logos/merck.svg" }
+      ]
+    }
+  ]
+}
