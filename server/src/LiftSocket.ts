@@ -1,8 +1,9 @@
 import { WebSocket, WebSocketServer } from 'ws';
-import { DATA_FILE } from './config';
+import { EVENTS_FILE, FLOORS_FILE } from './config';
 import fs from 'fs';
 import { SocketAction } from './types';
-import { Floor } from '@client/types';
+import { Floor, FloorEvent } from '@client/types';
+import { getLocalISODate } from './utils';
 
 export class LiftSocket {
   private server: WebSocketServer;
@@ -24,23 +25,31 @@ export class LiftSocket {
   }
 
   sendFloorsUpdate(client?: WebSocket) {
-    var data = JSON.parse(fs.readFileSync(DATA_FILE).toString()) as { floors: Floor[] };
+    var data = JSON.parse(fs.readFileSync(FLOORS_FILE).toString()) as { floors: Floor[] };
+    this.sendAction({ type: 'floors:update', payload: data.floors }, client);
+  }
 
-    const updatedFloors = data.floors.map((f) => {
-      if (f.eventBanner) {
-        const now = new Date();
-        const fromDate = f.eventBanner.fromDate ? new Date(f.eventBanner.fromDate) : null;
-        const toDate = f.eventBanner.toDate ? new Date(f.eventBanner.toDate) : null;
+  sendEventsUpdate(client?: WebSocket) {
+    const data = JSON.parse(fs.readFileSync(EVENTS_FILE).toString()) as { events: FloorEvent[] };
+    const now = getLocalISODate();
 
-        if ((fromDate && now < fromDate) || (toDate && now > toDate)) {
-          delete f.eventBanner;
-        }
+    const filteredEvents = data.events.filter((e) => {
+      const fromDate = e.fromDate ? new Date(e.fromDate) : null;
+      const toDate = e.toDate ? new Date(e.toDate) : null;
+
+      if ((fromDate && now < fromDate) || (toDate && now > toDate)) {
+        return false;
       }
 
-      return f;
+      return true;
     });
 
-    this.sendAction({ type: 'floors:update', payload: updatedFloors }, client);
+    this.sendAction({ type: 'events:update', payload: filteredEvents }, client);
+  }
+
+  sendUpdate(client?: WebSocket) {
+    this.sendFloorsUpdate(client);
+    this.sendEventsUpdate(client);
   }
 
   listenForConnections() {
@@ -51,7 +60,7 @@ export class LiftSocket {
       ws.on('error', console.error);
 
       // Send initial update when a client connects
-      this.sendFloorsUpdate(ws);
+      this.sendUpdate(ws);
 
       ws.on('close', () => {
         console.log('Client disconnected');

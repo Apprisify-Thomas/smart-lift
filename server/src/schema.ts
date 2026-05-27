@@ -17,8 +17,8 @@ export const UpdateCompanyAction = z.object({
   type: z.literal('UPDATE_COMPANY'),
   findName: z.string(),
   replaceWith: z.string(),
-  image: z.boolean().nullable(),
-  index: z.number().nullable(),
+  image: z.boolean().nullish(),
+  index: z.number().nullish(),
 });
 
 export const MoveCompanyAction = z.object({
@@ -27,27 +27,29 @@ export const MoveCompanyAction = z.object({
   toLevel: z.number(),
 });
 
-export const AddEventBannerAction = z.object({
-  type: z.literal('ADD_EVENT_BANNER'),
-  floor: z.number(),
-  title: z.string().nullable(),
-  description: z.string().nullable(),
-  fromDate: z.string().nullable(),
-  toDate: z.string().nullable(),
+export const AddEventAction = z.object({
+  type: z.literal('ADD_EVENT'),
+  floor: z.number().nullish(),
+  title: z.string(),
+  description: z.string().nullish(),
+  fromDate: z.string().nullish(),
+  toDate: z.string().nullish(),
 });
 
-export const UpdateEventBannerAction = z.object({
-  type: z.literal('UPDATE_EVENT_BANNER'),
-  floor: z.number(),
-  title: z.string().nullable(),
-  description: z.string().nullable(),
-  fromDate: z.string().nullable(),
-  toDate: z.string().nullable(),
+export const UpdateEventAction = z.object({
+  type: z.literal('UPDATE_EVENT'),
+  title: z.string(),
+  update: z.object({
+    title: z.string().nullish(),
+    description: z.string().nullish(),
+    fromDate: z.string().nullish(),
+    toDate: z.string().nullish(),
+  }),
 });
 
-export const RemoveEventBannerAction = z.object({
-  type: z.literal('REMOVE_EVENT_BANNER'),
-  floor: z.number(),
+export const RemoveEventAction = z.object({
+  type: z.literal('REMOVE_EVENT'),
+  eventTitle: z.string(),
 });
 
 export const SendStatusAction = z.object({
@@ -63,9 +65,9 @@ export const Actions = z.union([
   UpdateCompanyAction,
   DeleteCompanyAction,
   MoveCompanyAction,
-  AddEventBannerAction,
-  RemoveEventBannerAction,
-  UpdateEventBannerAction,
+  AddEventAction,
+  RemoveEventAction,
+  UpdateEventAction,
   SendStatusAction,
   ResetAction,
 ]);

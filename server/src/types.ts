@@ -1,4 +1,4 @@
-import { Floor } from '@client/types';
+import { Floor, FloorEvent } from '@client/types';
 
 export type FloorData = {
   floors: Floor[];
@@ -6,6 +6,7 @@ export type FloorData = {
 
 export type SocketAction =
   | { type: 'floors:update'; payload: Floor[] }
+  | { type: 'events:update'; payload: FloorEvent[] }
   | { type: 'email:processing'; payload: { message: string } }
   | { type: 'email:processed'; payload: any };
 
@@ -42,27 +43,24 @@ export type MoveCompanyAction = {
   toLevel: number;
 };
 
-export type AddEventBannerAction = {
-  type: 'ADD_EVENT_BANNER';
-  floor: number;
-  title: string | null;
-  description: string | null;
-  fromDate: string | null;
-  toDate: string | null;
+export type AddEventAction = {
+  type: 'ADD_EVENT';
+  floor?: number;
+  title: string;
+  description?: string;
+  fromDate?: string;
+  toDate?: string;
 };
 
-export type UpdateEventBannerAction = {
-  type: 'UPDATE_EVENT_BANNER';
-  floor: number;
-  title: string | null;
-  description: string | null;
-  fromDate: string | null;
-  toDate: string | null;
+export type UpdateEventAction = {
+  type: 'UPDATE_EVENT';
+  title: string;
+  update: Partial<FloorEvent>;
 };
 
-export type RemoveEventBannerAction = {
-  type: 'REMOVE_EVENT_BANNER';
-  floor: number;
+export type RemoveEventAction = {
+  type: 'REMOVE_EVENT';
+  eventTitle: string;
 };
 
 export type ResetAction = {
@@ -78,10 +76,10 @@ export type FloorAction =
   | UpdateCompanyAction
   | DeleteCompanyAction
   | MoveCompanyAction
-  | RemoveEventBannerAction
-  | UpdateEventBannerAction
+  | RemoveEventAction
+  | UpdateEventAction
   | ChangeImageAction
-  | AddEventBannerAction
+  | AddEventAction
   | SendStatusAction
   | ResetAction;
 

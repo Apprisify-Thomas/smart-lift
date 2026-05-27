@@ -1,11 +1,13 @@
 import { FloorAction } from './types';
 import { FloorManager } from './FloorManager';
-import { DATA_FILE } from './config';
+import { EVENTS_FILE, FLOORS_FILE } from './config';
 import { sendResponseEmail } from './mail';
 import fs from 'fs';
+import { FloorEventManager } from './FloorEventManager';
 
 export async function processActions(actions: FloorAction[], imageFile?: string) {
-  const floorManager = new FloorManager(DATA_FILE);
+  const floorManager = new FloorManager(FLOORS_FILE);
+  const eventManager = new FloorEventManager(EVENTS_FILE);
 
   for (const action of actions) {
     switch (action.type) {
@@ -63,44 +65,38 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
           true
         );
         break;
-      case 'ADD_EVENT_BANNER':
-        floorManager.addEventBannerToFloor(action.floor, {
-          title: action.title ?? undefined,
+      case 'ADD_EVENT':
+        eventManager.addEvent({
+          title: action.title,
           description: action.description ?? undefined,
           imageUrl: imageFile,
           fromDate: action.fromDate ?? undefined,
           toDate: action.toDate ?? undefined,
         });
-        floorManager.save();
+        eventManager.save();
 
         await sendResponseEmail(
-          'Smart Lift / Banner added',
+          'Smart Lift / Event added',
           `<p>This is an response to your ui update.</p>`,
           true
         );
         break;
-      case 'REMOVE_EVENT_BANNER':
-        floorManager.removeEventBannerFromFloor(action.floor);
-        floorManager.save();
+      case 'REMOVE_EVENT':
+        eventManager.removeEvent(action.eventTitle);
+        eventManager.save();
 
         await sendResponseEmail(
-          'Smart Lift / Banner removed',
+          'Smart Lift / Event removed',
           `<p>You will find the current display state attached.</p>`,
           true
         );
         break;
-      case 'UPDATE_EVENT_BANNER':
-        floorManager.updateEventBanner(action.floor, {
-          ...(action.title ? { title: action.title } : {}),
-          ...(action.description ? { description: action.description } : {}),
-          ...(imageFile ? { imageUrl: imageFile } : {}),
-          ...(action.fromDate ? { fromDate: action.fromDate } : {}),
-          ...(action.toDate ? { toDate: action.toDate } : {}),
-        });
-        floorManager.save();
+      case 'UPDATE_EVENT':
+        eventManager.updateEvent(action.title, action.update);
+        eventManager.save();
 
         await sendResponseEmail(
-          'Smart Lift / Banner updated',
+          'Smart Lift / Event updated',
           `<p>You will find the current display state attached.</p>`,
           true
         );
@@ -114,7 +110,8 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
         );
         break;
       case 'RESET_TO_FACTORY':
-        fs.copyFileSync('./floors.example.json', DATA_FILE);
+        fs.copyFileSync('./floors.factory.json', FLOORS_FILE);
+        fs.copyFileSync('./events.factory.json', EVENTS_FILE);
 
         await sendResponseEmail(
           'Smart Lift / Reset',

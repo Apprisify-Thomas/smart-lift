@@ -1,4 +1,4 @@
-import { Floor, FloorCompany, FloorEventBanner } from '@client/types';
+import { Floor, FloorCompany } from '@client/types';
 import fs from 'fs';
 
 export class FloorManager {
@@ -93,36 +93,6 @@ export class FloorManager {
     );
 
     targetFloor.companies.push(companyToMove);
-  }
-
-  addEventBannerToFloor(num: number, banner: FloorEventBanner): void {
-    for (const floor of this.floors) {
-      if (floor.num === num) {
-        floor.eventBanner = banner;
-
-        break;
-      }
-    }
-  }
-
-  removeEventBannerFromFloor(num: number): void {
-    for (const floor of this.floors) {
-      if (floor.num === num) {
-        delete floor.eventBanner;
-
-        break;
-      }
-    }
-  }
-
-  updateEventBanner(num: number, banner: Partial<FloorEventBanner>): void {
-    for (const floor of this.floors) {
-      if (floor.num === num) {
-        floor.eventBanner = { ...floor.eventBanner, ...banner };
-
-        break;
-      }
-    }
   }
 
   read(): void {

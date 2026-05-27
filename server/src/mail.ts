@@ -6,10 +6,13 @@ const emailClient = new ServerClient(process.env.POSTMARK_APIKEY || '');
 export async function makeScreenshot(): Promise<string> {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('http://localhost:8083');
+
+  await page.goto('http://localhost:8083', { waitUntil: 'networkidle0' });
   page.setViewport({ width: 1080, height: 1980 });
+
   const screenshot = await page.screenshot({ encoding: 'base64' });
   await browser.close();
+
   return screenshot;
 }
 

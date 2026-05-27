@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import type { Floor, SocketAction } from './types';
+import type { Floor, FloorEvent, SocketAction } from './types';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Widgets from './components/Widgets';
 import FloorManager from './components/FloorManager';
+import EventsWidget from './components/widgets/EventsWidget';
+import LoadWidget from './components/widgets/LoadWidget';
+import TimeWidget from './components/widgets/TimeWidget';
+import WeatherWidget from './components/widgets/WeatherWidget';
 
 export default function App() {
   const { lastMessage } = useWebSocket(
@@ -20,6 +23,7 @@ export default function App() {
 
   const [activeFloor, setActiveFloor] = useState(0);
   const [floors, setFloors] = useState<Floor[]>([]);
+  const [events, setEvents] = useState<FloorEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [nextStop, setNextStop] = useState<number | null>(null);
   const [animating, setAnimating] = useState(false);
@@ -31,6 +35,9 @@ export default function App() {
       switch (action.type) {
         case 'floors:update':
           setFloors(action.payload);
+          break;
+        case 'events:update':
+          setEvents(action.payload);
           break;
         case 'email:processing':
           console.log('Email processing:', action.payload);
@@ -96,7 +103,19 @@ export default function App() {
           disabled={animating}
         />
 
-        <Widgets />
+        <div className="flex flex-col gap-10 mb-20">
+          {events.length > 0 && (
+            <div className="mb-10">
+              <EventsWidget events={events} />
+            </div>
+          )}
+
+          <div className="flex gap-10 justify-between">
+            <LoadWidget />
+            <TimeWidget />
+            <WeatherWidget />
+          </div>
+        </div>
 
         <Footer />
       </div>

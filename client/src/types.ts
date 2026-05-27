@@ -1,15 +1,15 @@
 export type Floor = {
   num: number;
   companies: FloorCompany[];
-  eventBanner?: FloorEventBanner;
 };
 
-export type FloorEventBanner = {
-  imageUrl?: string;
-  title?: string;
+export type FloorEvent = {
+  floor?: number;
+  title: string;
   description?: string;
   fromDate?: string;
   toDate?: string;
+  imageUrl?: string;
 };
 
 export type FloorCompany = {

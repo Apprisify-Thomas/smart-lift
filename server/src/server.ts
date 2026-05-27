@@ -29,7 +29,7 @@ app.post('/', async (req, res) => {
 
   const response = await askFloorManager(req.body.TextBody as string);
 
-  console.log(response);
+  console.dir(response, { depth: null });
 
   await processActions(response.actions, imageFile);
 
@@ -38,7 +38,7 @@ app.post('/', async (req, res) => {
     payload: response,
   });
 
-  socket.sendFloorsUpdate();
+  socket.sendUpdate();
 
   res.send('mail recieved and processed');
 });
@@ -46,7 +46,7 @@ app.post('/', async (req, res) => {
 socket.listenForConnections();
 app.listen(8083, () => console.log('Server listening on port 8083'));
 
-// Update client every 30 seconds in case of external changes to the floors data
+// Update client every 30 seconds in case of external changes to the events data
 setInterval(() => {
-  socket.sendFloorsUpdate();
+  socket.sendEventsUpdate();
 }, 30000);
