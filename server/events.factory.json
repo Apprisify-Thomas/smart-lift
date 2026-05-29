@@ -4,41 +4,31 @@
       "title": "Siemens Annual Conference",
       "description": "Join us for the Siemens Annual Conference on the 4th floor.",
       "floor": 4,
-      "imageUrl": "http://localhost:8083/events/siemens-conference.jpg",
-      "fromDate": "2024-07-01T09:00:00Z",
-      "toDate": "2024-07-01T17:00:00Z"
+      "imageUrl": "http://localhost:8083/events/siemens-conference.jpg"
     },
     {
       "title": "BMW Product Launch",
       "description": "Experience the latest innovations from BMW on the 3rd floor.",
       "floor": 3,
-      "imageUrl": "http://localhost:8083/events/bmw-launch.jpg",
-      "fromDate": "2024-07-02T10:00:00Z",
-      "toDate": "2024-07-02T18:00:00Z"
+      "imageUrl": "http://localhost:8083/events/bmw-launch.jpg"
     },
     {
       "title": "Bayer Health Symposium",
       "description": "Discover advancements in healthcare with Bayer on the 2nd floor.",
       "floor": 2,
-      "imageUrl": "http://localhost:8083/events/bayer-symposium.jpg",
-      "fromDate": "2024-07-03T08:00:00Z",
-      "toDate": "2024-07-03T16:00:00Z"
+      "imageUrl": "http://localhost:8083/events/bayer-symposium.jpg"
     },
     {
       "title": "KPMG Financial Workshop",
       "description": "Enhance your financial skills with KPMG on the 1st floor.",
       "floor": 1,
-      "imageUrl": "http://localhost:8083/events/kpmg-workshop.jpg",
-      "fromDate": "2024-07-04T09:30:00Z",
-      "toDate": "2024-07-04T15:30:00Z"
+      "imageUrl": "http://localhost:8083/events/kpmg-workshop.jpg"
     },
     {
       "title": "Deutsche Bank Investment Seminar",
       "description": "Learn about investment strategies with Deutsche Bank on the ground floor.",
       "floor": 0,
-      "imageUrl": "http://localhost:8083/events/deutsche-bank-seminar.jpg",
-      "fromDate": "2024-07-05T11:00:00Z",
-      "toDate": "2024-07-05T17:00:00Z"
+      "imageUrl": "http://localhost:8083/events/deutsche-bank-seminar.jpg"
     }
   ]
 }
