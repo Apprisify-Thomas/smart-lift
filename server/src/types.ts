@@ -4,6 +4,12 @@ export type FloorData = {
   floors: Floor[];
 };
 
+export type MailBodyData = {
+  From: string;
+  TextBody: string;
+  Attachments: FileAttachment[];
+};
+
 export type SocketAction =
   | { type: 'floors:update'; payload: Floor[] }
   | { type: 'events:update'; payload: FloorEvent[] }
@@ -84,8 +90,11 @@ export type FloorAction =
   | ResetAction;
 
 export type FileAttachment = {
-  Content: string;
-  ContentLength: number;
-  Name: string;
-  ContentType: string;
+  id: string;
+  name: string;
+  lastModifiedDateTime: string;
+  size: number;
+  isInline: boolean;
+  contentType: string;
+  contentBytes: string;
 };

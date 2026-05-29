@@ -72,6 +72,7 @@ export const Actions = z.union([
   ResetAction,
 ]);
 
-export const ActionSequence = z.object({
+export const OpenAIResponse = z.object({
   actions: z.array(Actions),
+  feedbackMessage: z.string(),
 });

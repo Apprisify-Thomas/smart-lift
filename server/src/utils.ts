@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { ActionSequence } from './schema';
+import { OpenAIResponse } from './schema';
 import fs from 'fs';
 import sharp from 'sharp';
 import crypto from 'crypto';
@@ -45,6 +45,8 @@ export async function askFloorManager(command: string) {
           'UPDATE_EVENT': If there is an existing event and for example the timing needs to be adjusted use this action.
           'REMOVE_EVENT': Should remove the event entirely. Only use if the user explicitly says so.
           'SEND_STATUS': This is a special action that should be used if the user wants see the current state of the floors without making any changes. 
+          
+          For every action please provide a short feedback message that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". Always provide a feedback message for every action and use the language of the user.
           `,
       },
       {
@@ -58,15 +60,15 @@ export async function askFloorManager(command: string) {
       },
     ],
     text: {
-      format: zodTextFormat(ActionSequence, 'actions'),
+      format: zodTextFormat(OpenAIResponse, 'response'),
     },
   });
 
-  return JSON.parse(response.output_text) as { actions: FloorAction[] };
+  return JSON.parse(response.output_text) as { actions: FloorAction[]; feedbackMessage: string };
 }
 
 export async function saveImage(file: FileAttachment) {
-  const hash = crypto.createHash('sha256').update(file.Content).digest('hex');
+  const hash = crypto.createHash('sha256').update(file.contentBytes).digest('hex');
 
   const fileName = hash + '.png';
   const filePath = `./public/files/${fileName}`;
@@ -76,7 +78,7 @@ export async function saveImage(file: FileAttachment) {
     return `http://localhost:8083/files/${fileName}`;
   }
 
-  const buffer = Buffer.from(file.Content, 'base64');
+  const buffer = Buffer.from(file.contentBytes, 'base64');
   const image = sharp(buffer);
   const metadata = await image.metadata();
 

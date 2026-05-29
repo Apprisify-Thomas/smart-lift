@@ -1,13 +1,16 @@
-import { Message, ServerClient } from 'postmark';
 import puppeteer from 'puppeteer';
+import Mailjet from 'node-mailjet';
 
-const emailClient = new ServerClient(process.env.POSTMARK_APIKEY || '');
+const emailClient = new Mailjet({
+  apiKey: process.env.MJ_APIKEY_PUBLIC || '',
+  apiSecret: process.env.MJ_APIKEY_PRIVATE || '',
+});
 
 export async function makeScreenshot(): Promise<string> {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto('http://localhost:8083', { waitUntil: 'networkidle0' });
+  await page.goto('http://localhost:5173', { waitUntil: 'networkidle0' });
   page.setViewport({ width: 1080, height: 1980 });
 
   const screenshot = await page.screenshot({ encoding: 'base64' });
@@ -17,28 +20,45 @@ export async function makeScreenshot(): Promise<string> {
 }
 
 export async function sendResponseEmail(
+  to: string,
   subject: string,
   htmlBody: string,
   includeScreenshot: boolean = false
 ) {
-  const emailData: Message = {
-    From: process.env.MAIL_RECIPIENT || '',
-    To: process.env.MAIL_RECIPIENT || '',
+  const emailData: any = {
+    From: {
+      Email: 'liftfabrik@apprisify.com',
+      Name: 'Liftfabrik',
+    },
+    To: [
+      {
+        Email: to,
+      },
+    ],
     Subject: subject,
-    HtmlBody: htmlBody,
+    HTMLPart: htmlBody,
   };
 
   if (includeScreenshot) {
     const screenshot = await makeScreenshot();
     emailData.Attachments = [
       {
-        Name: 'screenshot.png',
-        ContentID: 'screenshot',
-        Content: screenshot,
+        Filename: 'lift_ui_status.png',
+        Base64Content: screenshot,
         ContentType: 'image/png',
       },
     ];
   }
 
-  await emailClient.sendEmail(emailData);
+  const request = emailClient.post('send', { version: 'v3.1' }).request({
+    Messages: [emailData],
+  });
+
+  request
+    .then((result) => {
+      console.log('Email sent successfully:', result.body);
+    })
+    .catch((err) => {
+      console.error('Error sending email:', err);
+    });
 }

@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { askFloorManager, saveImage } from './utils';
 import path from 'path';
-import { FileAttachment } from './types';
+import { FileAttachment, MailBodyData } from './types';
 import { processActions } from './actions';
 import { LiftSocket } from './LiftSocket';
+import { sendResponseEmail } from './mail';
 
 const app = express();
 app.use(cors());
@@ -20,18 +21,30 @@ app.post('/', async (req, res) => {
     payload: { message: 'Processing email...' },
   });
 
-  const attachments = req.body.Attachments as FileAttachment[];
+  const body = req.body as MailBodyData;
+
+  console.log('Received email from:', body.From);
+  console.log('Email body:', body.TextBody);
+
+  const attachments = body.Attachments as FileAttachment[];
   let imageFile;
 
-  if (attachments && attachments[0] && attachments[0].Content) {
+  if (attachments && attachments[0] && attachments[0].contentBytes) {
     imageFile = await saveImage(attachments[0]);
   }
 
-  const response = await askFloorManager(req.body.TextBody as string);
+  const response = await askFloorManager(body.TextBody);
 
   console.dir(response, { depth: null });
 
   await processActions(response.actions, imageFile);
+
+  await sendResponseEmail(
+    body.From,
+    'Smart Lift / Action processed',
+    `<p>${response.feedbackMessage}</p>`,
+    true
+  );
 
   socket.sendAction({
     type: 'email:processed',
