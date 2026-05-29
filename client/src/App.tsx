@@ -56,7 +56,7 @@ export default function App() {
   useEffect(() => {
     const timeout = setInterval(() => {
       setActiveFloor(activeFloor === floors.length - 1 ? 0 : activeFloor + 1);
-    }, 4000);
+    }, 8000);
     return () => clearTimeout(timeout);
   }, [activeFloor, floors]);
 
