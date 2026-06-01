@@ -7,8 +7,10 @@ export default function FloorManager({
   activeFloor,
   onFloorClick,
   disabled,
+  targetFloor,
 }: {
   floors: Floor[];
+  targetFloor?: number | null;
   activeFloor: number;
   onFloorClick: (floor: number) => void;
   disabled?: boolean;
@@ -21,6 +23,7 @@ export default function FloorManager({
             key={i}
             floor={f}
             active={f.num === activeFloor}
+            isTargeted={f.num === targetFloor}
             onClick={() => onFloorClick(f.num)}
             disabled={disabled}
           />

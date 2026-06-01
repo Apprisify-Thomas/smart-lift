@@ -97,6 +97,7 @@ export default function App() {
         </div>
 
         <FloorManager
+          targetFloor={nextStop !== null && nextStop !== activeFloor ? nextStop : null}
           floors={floors}
           activeFloor={activeFloor}
           onFloorClick={handleFloorClick}

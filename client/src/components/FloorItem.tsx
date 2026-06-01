@@ -5,11 +5,18 @@ import FloorCompanyItem from './FloorCompanyItem';
 interface FloorItemProps {
   floor: Floor;
   active?: boolean;
+  isTargeted?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
 }
 
-export default function FloorItem({ floor, active, onClick, disabled }: FloorItemProps) {
+export default function FloorItem({
+  floor,
+  active,
+  isTargeted,
+  onClick,
+  disabled,
+}: FloorItemProps) {
   let containerStyles: CSSProperties = {
     transition: '0.5s all ease-out',
     transform: 'rotateY(8deg)',
@@ -32,6 +39,15 @@ export default function FloorItem({ floor, active, onClick, disabled }: FloorIte
     rightContainerStyles = {
       ...rightContainerStyles,
       backgroundColor: 'var(--accent-color-light)',
+    };
+  }
+
+  if (isTargeted) {
+    containerStyles = { ...containerStyles };
+    leftContainerStyles = { ...leftContainerStyles, backgroundColor: 'rgba(255, 255, 255, 0.2)' };
+    rightContainerStyles = {
+      ...rightContainerStyles,
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
     };
   }
 
