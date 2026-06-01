@@ -14,7 +14,7 @@ export default function FloorManager({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex gap-10 mb-30">
+    <div className="flex gap-10 mb-20">
       <div className="flex flex-col divide-y-2 divide-zinc-500 w-full">
         {floors.map((f, i) => (
           <FloorItem

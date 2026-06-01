@@ -9,26 +9,22 @@
     {
       "title": "BMW Product Launch",
       "description": "Experience the latest innovations from BMW on the 3rd floor.",
-      "floor": 3,
-      "imageUrl": "http://localhost:8083/events/bmw-launch.jpg"
+      "floor": 3
     },
     {
       "title": "Bayer Health Symposium",
       "description": "Discover advancements in healthcare with Bayer on the 2nd floor.",
-      "floor": 2,
-      "imageUrl": "http://localhost:8083/events/bayer-symposium.jpg"
+      "floor": 2
     },
     {
       "title": "KPMG Financial Workshop",
       "description": "Enhance your financial skills with KPMG on the 1st floor.",
-      "floor": 1,
-      "imageUrl": "http://localhost:8083/events/kpmg-workshop.jpg"
+      "floor": 1
     },
     {
       "title": "Deutsche Bank Investment Seminar",
       "description": "Learn about investment strategies with Deutsche Bank on the ground floor.",
-      "floor": 0,
-      "imageUrl": "http://localhost:8083/events/deutsche-bank-seminar.jpg"
+      "floor": 0
     }
   ]
 }

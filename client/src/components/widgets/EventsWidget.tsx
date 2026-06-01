@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { FloorEvent } from '../../types';
 
 export default function EventsWidget({ events }: { events: FloorEvent[] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(5);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,32 +27,8 @@ export default function EventsWidget({ events }: { events: FloorEvent[] }) {
         </svg>
         Events
       </h2>
-      <div className="relative overflow-hidden h-34">
-        <div
-          className="transition-all duration-500 ease-in-out"
-          style={{
-            transform: `translateY(0)`,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-        >
-          <p className="text-3xl font-extralight truncate">{currentEvent.title}</p>
-          <p className="text-lg font-light mb-1">{currentEvent.description}</p>
-          {/* {currentEvent.floor !== undefined && (
-            <p className="text-sm text-neutral-500 mt-1">Floor {currentEvent.floor}</p>
-          )} */}
 
-          {currentEvent.imageUrl !== undefined && (
-            <img
-              src={currentEvent.imageUrl}
-              alt={currentEvent.title}
-              className="w-full h-20 object-cover"
-            />
-          )}
-        </div>
-      </div>
-      <div className="flex gap-1 mt-3">
+      <div className="flex gap-1 my-5">
         {events.map((_, idx) => (
           <div
             key={idx}
@@ -61,6 +37,35 @@ export default function EventsWidget({ events }: { events: FloorEvent[] }) {
             }`}
           />
         ))}
+      </div>
+      <div className="relative overflow-hidden">
+        <div
+          className="transition-all duration-500 ease-in-out"
+          style={{
+            transform: `translateY(0)`,
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 30,
+          }}
+        >
+          <div className="grow">
+            <p className="text-3xl font-extralight truncate">{currentEvent.title}</p>
+            <p className="text-lg font-light mb-1">{currentEvent.description}</p>
+          </div>
+          {/* {currentEvent.floor !== undefined && (
+            <p className="text-sm text-neutral-500 mt-1">Floor {currentEvent.floor}</p>
+          )} */}
+
+          <div className="h-50 w-60">
+            {currentEvent.imageUrl !== undefined && (
+              <img
+                src={currentEvent.imageUrl}
+                alt={currentEvent.title}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
