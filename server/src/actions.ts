@@ -56,7 +56,10 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
         eventManager.save();
         break;
       case 'UPDATE_EVENT':
-        eventManager.updateEvent(action.title, action.update);
+        eventManager.updateEvent(action.title, {
+          ...action.update,
+          ...(imageFile ? { imageUrl: imageFile } : {}),
+        });
         eventManager.save();
         break;
       case 'SEND_STATUS':

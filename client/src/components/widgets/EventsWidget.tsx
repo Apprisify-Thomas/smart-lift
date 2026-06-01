@@ -27,7 +27,7 @@ export default function EventsWidget({ events }: { events: FloorEvent[] }) {
         </svg>
         Events
       </h2>
-      <div className="relative overflow-hidden h-20">
+      <div className="relative overflow-hidden h-34">
         <div
           className="transition-all duration-500 ease-in-out"
           style={{
@@ -38,10 +38,18 @@ export default function EventsWidget({ events }: { events: FloorEvent[] }) {
           }}
         >
           <p className="text-3xl font-extralight truncate">{currentEvent.title}</p>
-          <p className="text-lg font-light">{currentEvent.description}</p>
+          <p className="text-lg font-light mb-1">{currentEvent.description}</p>
           {/* {currentEvent.floor !== undefined && (
             <p className="text-sm text-neutral-500 mt-1">Floor {currentEvent.floor}</p>
           )} */}
+
+          {currentEvent.imageUrl !== undefined && (
+            <img
+              src={currentEvent.imageUrl}
+              alt={currentEvent.title}
+              className="w-full h-20 object-cover"
+            />
+          )}
         </div>
       </div>
       <div className="flex gap-1 mt-3">
