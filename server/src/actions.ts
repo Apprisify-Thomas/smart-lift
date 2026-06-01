@@ -15,7 +15,7 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
           action.findName,
           {
             name: action.replaceWith,
-            ...(action.image ? { logoUrl: imageFile } : {}),
+            ...(imageFile ? { logoUrl: imageFile } : {}),
           },
           action.index
         );
@@ -27,7 +27,7 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
           action.floor,
           {
             name: action.name,
-            logoUrl: action.image ? imageFile : '',
+            logoUrl: imageFile ? imageFile : '',
           },
           action.index
         );
