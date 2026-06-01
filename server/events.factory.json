@@ -4,7 +4,7 @@
       "title": "Siemens Annual Conference",
       "description": "Join us for the Siemens Annual Conference on the 4th floor.",
       "floor": 4,
-      "imageUrl": "http://localhost:8083/events/siemens-conference.jpg"
+      "imageUrl": "http://localhost:8083/events/siemens-conference.png"
     },
     {
       "title": "BMW Product Launch",
