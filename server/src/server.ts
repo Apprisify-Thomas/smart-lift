@@ -30,7 +30,7 @@ app.post('/', async (req, res) => {
   const attachments = body.Attachments as FileAttachment[];
   let imageFile;
 
-  if (attachments && attachments[0] && attachments[0].contentBytes) {
+  if (attachments && attachments[0] && attachments[0].contentBytes && !attachments[0].isInline) {
     imageFile = await saveImage(attachments[0]);
   }
 
