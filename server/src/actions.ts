@@ -1,6 +1,6 @@
 import { FloorAction } from './types';
 import { FloorManager } from './FloorManager';
-import { EVENTS_FILE, FLOORS_FILE } from './config';
+import { EVENTS_FACTORY_FILE, EVENTS_FILE, FLOORS_FACTORY_FILE, FLOORS_FILE } from './config';
 import fs from 'fs';
 import { FloorEventManager } from './FloorEventManager';
 
@@ -63,11 +63,12 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
         eventManager.save();
         break;
       case 'SEND_STATUS':
+      case 'REJECT':
         // No changes to be made, just send the current state of the floors + screenshot
         break;
       case 'RESET_TO_FACTORY':
-        fs.copyFileSync('./floors.factory.json', FLOORS_FILE);
-        fs.copyFileSync('./events.factory.json', EVENTS_FILE);
+        fs.copyFileSync(FLOORS_FACTORY_FILE, FLOORS_FILE);
+        fs.copyFileSync(EVENTS_FACTORY_FILE, EVENTS_FILE);
     }
   }
 }

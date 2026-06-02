@@ -1,5 +1,5 @@
 node_modules
 .env
-floors.json
-events.json
+data/floors.json
+data/events.json
 public/files
