@@ -60,6 +60,10 @@ export const ResetAction = z.object({
   type: z.literal('RESET_TO_FACTORY'),
 });
 
+export const RejectAction = z.object({
+  type: z.literal('REJECT'),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
@@ -70,6 +74,7 @@ export const Actions = z.union([
   UpdateEventAction,
   SendStatusAction,
   ResetAction,
+  RejectAction,
 ]);
 
 export const OpenAIResponse = z.object({

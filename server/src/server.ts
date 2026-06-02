@@ -40,12 +40,21 @@ app.post('/', async (req, res) => {
 
   await processActions(response.actions, imageFile);
 
-  await sendResponseEmail(
-    body.From,
-    'Smart Lift / Action processed',
-    `<p>${response.feedbackMessage}</p>`,
-    true
-  );
+  if (response.actions[0] && response.actions[0].type === 'REJECT') {
+    await sendResponseEmail(
+      body.From,
+      'Smart Lift / Action rejected',
+      `<p>${response.feedbackMessage}</p>`,
+      true
+    );
+  } else {
+    await sendResponseEmail(
+      body.From,
+      'Smart Lift / Action processed',
+      `<p>${response.feedbackMessage}</p>`,
+      true
+    );
+  }
 
   socket.sendAction({
     type: 'email:processed',

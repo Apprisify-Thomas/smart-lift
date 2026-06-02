@@ -78,6 +78,10 @@ export type SendStatusAction = {
   type: 'SEND_STATUS';
 };
 
+export type RejectAction = {
+  type: 'REJECT';
+};
+
 export type FloorAction =
   | AddCompanyAction
   | UpdateCompanyAction
@@ -88,7 +92,8 @@ export type FloorAction =
   | ChangeImageAction
   | AddEventAction
   | SendStatusAction
-  | ResetAction;
+  | ResetAction
+  | RejectAction;
 
 export type FileAttachment = {
   id: string;

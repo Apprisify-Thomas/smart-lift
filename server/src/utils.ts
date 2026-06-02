@@ -17,7 +17,7 @@ export function getLocalISODate(): Date {
   return new Date(Date.now() - tzOffset);
 }
 
-export async function askFloorManager(subject: string, command: string) {
+export async function askFloorManager(subject: string, action: string) {
   const floorsData = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
   const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE).toString());
   const date = getLocalISODate();
@@ -47,6 +47,15 @@ export async function askFloorManager(subject: string, command: string) {
           'SEND_STATUS': This is a special action that should be used if the user wants see the current state of the floors without making any changes. 
           
           For every action please provide a short feedback message that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". Always provide a feedback message for every action and use the language of the user.
+          
+          Rejection of actions:
+          I some cases you have to reject the action because the user input is not clear enough. 
+          In this case you should use the 'REJECT' action and the feedback message should be a question that helps the user to clarify their request. 
+          For example if the user wants to move a company but does not specify the target floor, the feedback message could be "To which floor do you want to move the company?" 
+          or if they want to change a company name but there are multiple companies with the same name, the feedback message could be "Which company do you want to rename? The one on floor X or floor Y?" 
+          Always try to help the user to clarify their request if it is not clear enough instead of rejecting it immediately. Only reject it if it is completely unclear what the user wants to do.
+          You should also reject if a user wants to move a company to a non existing floor or if they want to update an event that does not exist.
+          Also reject if the user wants to rename a company to a name that already exists on another floor. In this case the feedback message could be "There is already a company with this name on floor X. Do you want to move the company to this floor instead or do you want to choose a different name?"
           `,
       },
       {
@@ -54,7 +63,7 @@ export async function askFloorManager(subject: string, command: string) {
         content: [
           {
             type: 'input_text',
-            text: `Subject: ${subject}; CommandText: ${command}`,
+            text: `Subject: ${subject}; ActionText: ${action}`,
           },
         ],
       },
