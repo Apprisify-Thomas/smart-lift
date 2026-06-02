@@ -6,6 +6,7 @@ export type FloorData = {
 
 export type MailBodyData = {
   From: string;
+  Subject: string;
   TextBody: string;
   Attachments: FileAttachment[];
 };

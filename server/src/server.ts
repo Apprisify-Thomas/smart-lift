@@ -24,6 +24,7 @@ app.post('/', async (req, res) => {
   const body = req.body as MailBodyData;
 
   console.log('Received email from:', body.From);
+  console.log('Email Subject', body.Subject);
   console.log('Email body:', body.TextBody);
 
   const attachments = body.Attachments as FileAttachment[];
@@ -33,7 +34,7 @@ app.post('/', async (req, res) => {
     imageFile = await saveImage(attachments[0]);
   }
 
-  const response = await askFloorManager(body.TextBody);
+  const response = await askFloorManager(body.Subject, body.TextBody);
 
   console.dir(response, { depth: null });
 

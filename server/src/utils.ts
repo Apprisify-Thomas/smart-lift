@@ -17,7 +17,7 @@ export function getLocalISODate(): Date {
   return new Date(Date.now() - tzOffset);
 }
 
-export async function askFloorManager(command: string) {
+export async function askFloorManager(subject: string, command: string) {
   const floorsData = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
   const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE).toString());
   const date = getLocalISODate();
@@ -54,7 +54,7 @@ export async function askFloorManager(command: string) {
         content: [
           {
             type: 'input_text',
-            text: command,
+            text: `Subject: ${subject}; CommandText: ${command}`,
           },
         ],
       },
