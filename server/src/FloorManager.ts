@@ -100,7 +100,21 @@ export class FloorManager {
     this.floors = data.floors;
   }
 
+  loadLastRevision(): void {
+    const revisionFile = this.file.replace('.json', '.revision.json');
+
+    if (fs.existsSync(revisionFile)) {
+      const data = JSON.parse(fs.readFileSync(revisionFile).toString());
+      fs.writeFileSync(this.file, JSON.stringify({ floors: data.floors }));
+    }
+  }
+
   save(): void {
+    const revisionFile = this.file.replace('.json', '.revision.json');
+
+    const revisionData = JSON.parse(fs.readFileSync(this.file).toString());
+
+    fs.writeFileSync(revisionFile, JSON.stringify({ floors: revisionData.floors }));
     fs.writeFileSync(this.file, JSON.stringify({ floors: this.floors }));
   }
 }

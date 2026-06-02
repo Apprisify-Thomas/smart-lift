@@ -39,7 +39,20 @@ export class FloorEventManager {
     this.events = data.events;
   }
 
+  loadLastRevision(): void {
+    const revisionFile = this.file.replace('.json', '.revision.json');
+
+    if (fs.existsSync(revisionFile)) {
+      const data = JSON.parse(fs.readFileSync(revisionFile).toString());
+      fs.writeFileSync(this.file, JSON.stringify({ events: data.events }));
+    }
+  }
+
   save(): void {
+    const revisionFile = this.file.replace('.json', '.revision.json');
+    const revisionData = JSON.parse(fs.readFileSync(this.file).toString());
+
+    fs.writeFileSync(revisionFile, JSON.stringify({ events: revisionData.events }));
     fs.writeFileSync(this.file, JSON.stringify({ events: this.events }));
   }
 }

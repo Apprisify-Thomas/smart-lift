@@ -66,6 +66,10 @@ export async function processActions(actions: FloorAction[], imageFile?: string)
       case 'REJECT':
         // No changes to be made, just send the current state of the floors + screenshot
         break;
+      case 'UNDO':
+        floorManager.loadLastRevision();
+        eventManager.loadLastRevision();
+        break;
       case 'RESET_TO_FACTORY':
         fs.copyFileSync(FLOORS_FACTORY_FILE, FLOORS_FILE);
         fs.copyFileSync(EVENTS_FACTORY_FILE, EVENTS_FILE);

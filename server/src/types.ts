@@ -82,6 +82,10 @@ export type RejectAction = {
   type: 'REJECT';
 };
 
+export type UndoAction = {
+  type: 'UNDO';
+};
+
 export type FloorAction =
   | AddCompanyAction
   | UpdateCompanyAction
@@ -93,7 +97,8 @@ export type FloorAction =
   | AddEventAction
   | SendStatusAction
   | ResetAction
-  | RejectAction;
+  | RejectAction
+  | UndoAction;
 
 export type FileAttachment = {
   id: string;

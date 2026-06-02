@@ -39,23 +39,21 @@ export async function askFloorManager(subject: string, action: string) {
 
           Detailed description of allowed actions:
           'ADD_COMPANY': Adds a company to a specific floor and moves it to a index pos if needed. This index is for my splice function so it should be possible to move a company before and after a target company.
-          'MOVE_COMPANY': Moves a company from one floor to another and removes the old one. Only use this action if the user specifies a target floor otherwise use the 'UPDATE_COMPANY' action for index movement
+          'MOVE_COMPANY': Moves a company from one floor to another and removes the old one. Only use this action if the user specifies a target floor otherwise use the 'UPDATE_COMPANY' action for index movement. If no index is specified always append the company to the end of the companies array on the target floor.
           'DELETE_COMPANY': Removes a company name from all floors if found
           'UPDATE_COMPANY': Should update a company name or logo and its index position within the companies array. This index is for my splice function so it should be possible to move a company before and after a target company.
           'UPDATE_EVENT': If there is an existing event and for example the timing needs to be adjusted use this action.
           'REMOVE_EVENT': Should remove the event entirely. Only use if the user explicitly says so.
           'SEND_STATUS': This is a special action that should be used if the user wants see the current state of the floors without making any changes. 
-          
+          'RESET_TO_FACTORY': This is a special action that should be used if the user wants to reset all floors and events to the factory state. Only use this action if the user explicitly says so.
+
           For every action please provide a short feedback message that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". Always provide a feedback message for every action and use the language of the user.
           
           Rejection of actions:
-          I some cases you have to reject the action because the user input is not clear enough. 
-          In this case you should use the 'REJECT' action and the feedback message should be a question that helps the user to clarify their request. 
+          Use the 'REJECT' action and the feedback message should be a question that helps the user to clarify their request. 
           For example if the user wants to move a company but does not specify the target floor, the feedback message could be "To which floor do you want to move the company?" 
-          or if they want to change a company name but there are multiple companies with the same name, the feedback message could be "Which company do you want to rename? The one on floor X or floor Y?" 
-          Always try to help the user to clarify their request if it is not clear enough instead of rejecting it immediately. Only reject it if it is completely unclear what the user wants to do.
           You should also reject if a user wants to move a company to a non existing floor or if they want to update an event that does not exist.
-          Also reject if the user wants to rename a company to a name that already exists on another floor. In this case the feedback message could be "There is already a company with this name on floor X. Do you want to move the company to this floor instead or do you want to choose a different name?"
+         
           `,
       },
       {

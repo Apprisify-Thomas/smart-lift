@@ -64,6 +64,10 @@ export const RejectAction = z.object({
   type: z.literal('REJECT'),
 });
 
+export const UndoAction = z.object({
+  type: z.literal('UNDO'),
+});
+
 export const Actions = z.union([
   AddCompanyAction,
   UpdateCompanyAction,
@@ -75,6 +79,7 @@ export const Actions = z.union([
   SendStatusAction,
   ResetAction,
   RejectAction,
+  UndoAction,
 ]);
 
 export const OpenAIResponse = z.object({
