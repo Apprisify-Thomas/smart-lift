@@ -85,7 +85,7 @@ export default function App() {
     <>
       {loading && (
         <div className="absolute left-0 right-0 bottom-0 top-0 bg-black/70 flex justify-center items-center z-20">
-          <div className="bg-white/20 px-5 py-3 rounded-lg">E-Mail received. Processing...</div>
+          <div className="bg-white/20 px-5 py-3 rounded-lg">Action received. Processing...</div>
         </div>
       )}
       <div
