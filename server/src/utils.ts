@@ -29,7 +29,7 @@ export async function askFloorManager(subject: string, action: string) {
         role: 'system',
         content: `Act as a floor UI manager. The user is allowed to rename a company on a specific floor, 
           update a company name, delete or add a new company. This should result in a action sequence. If the user wants to change the image of a company, you should only change the image if the user explicitly says so.
-          The building has ${floorsData.floors.length} floors. Here is the current state of the building: ${JSON.stringify(
+          Here is the current state of the building: ${JSON.stringify(
             floorsData
           )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.
           
@@ -46,14 +46,9 @@ export async function askFloorManager(subject: string, action: string) {
           'REMOVE_EVENT': Should remove the event entirely. Only use if the user explicitly says so.
           'SEND_STATUS': This is a special action that should be used if the user wants see the current state of the floors without making any changes. 
           'RESET_TO_FACTORY': This is a special action that should be used if the user wants to reset all floors and events to the factory state. Only use this action if the user explicitly says so.
+          'REJECT': Reject if a user wants to MOVE or ADD a company to a non existing floor number or if they want to update an event that does not exist. If the user wants to MOVE or ADD a company but does not specify the target floor number, the feedback message could be "To which floor do you want to move the company?" 
 
           For every action please provide a short feedback message that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". Always provide a feedback message for every action and use the language of the user.
-          
-          Rejection of actions:
-          Use the 'REJECT' action and the feedback message should be a question that helps the user to clarify their request. 
-          For example if the user wants to move a company but does not specify the target floor, the feedback message could be "To which floor do you want to move the company?" 
-          You should also reject if a user wants to move a company to a non existing floor or if they want to update an event that does not exist.
-         
           `,
       },
       {
