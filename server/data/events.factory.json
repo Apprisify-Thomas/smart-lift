@@ -1,30 +1,14 @@
 {
   "events": [
     {
-      "title": "Siemens Annual Conference",
-      "description": "Join us for the Siemens Annual Conference on the 4th floor.",
-      "floor": 4,
-      "imageUrl": "http://localhost:8083/events/siemens-conference.png"
+      "title": "Liftfabrik Innovation Day",
+      "description": "Join us for the Liftfabrik Innovation Day on the 4th floor.",
+      "floor": 4
     },
     {
-      "title": "BMW Product Launch",
-      "description": "Experience the latest innovations from BMW on the 3rd floor.",
-      "floor": 3
-    },
-    {
-      "title": "Bayer Health Symposium",
-      "description": "Discover advancements in healthcare with Bayer on the 2nd floor.",
-      "floor": 2
-    },
-    {
-      "title": "KPMG Financial Workshop",
-      "description": "Enhance your financial skills with KPMG on the 1st floor.",
+      "title": "Apprisify Tech Talk",
+      "description": "Join us for an engaging tech talk by Apprisify on the 1st floor.",
       "floor": 1
-    },
-    {
-      "title": "Deutsche Bank Investment Seminar",
-      "description": "Learn about investment strategies with Deutsche Bank on the ground floor.",
-      "floor": 0
     }
   ]
 }

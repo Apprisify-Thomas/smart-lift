@@ -3,20 +3,15 @@
     {
       "num": 4,
       "companies": [
-        { "name": "Siemens", "logoUrl": "http://localhost:8083/logos/siemens.svg" },
-        { "name": "SAP", "logoUrl": "http://localhost:8083/logos/sap.svg" },
-        { "name": "Bosch", "logoUrl": "http://localhost:8083/logos/bosch.svg" },
-        {
-          "name": "Deutsche Telekom",
-          "logoUrl": "http://localhost:8083/logos/deutsche-telekom.svg"
-        }
+        { "name": "Liftfabrik", "logoUrl": "http://localhost:8083/logos/liftfabrik.png" },
+        { "name": "Siemens", "logoUrl": "http://localhost:8083/logos/siemens.png" }
       ]
     },
     {
       "num": 3,
       "companies": [
         { "name": "Adidas", "logoUrl": "http://localhost:8083/logos/adidas.svg" },
-        { "name": "BMW", "logoUrl": "http://localhost:8083/logos/bmw.svg" },
+        { "name": "BMW", "logoUrl": "http://localhost:8083/logos/bmw.webp" },
         { "name": "Volkswagen", "logoUrl": "http://localhost:8083/logos/volkswagen.svg" },
         { "name": "Allianz", "logoUrl": "http://localhost:8083/logos/allianz.svg" }
       ]
@@ -30,14 +25,16 @@
     },
     {
       "num": 1,
-      "companies": [{ "name": "KPMG", "logoUrl": "http://localhost:8083/logos/kpmg.svg" }]
+      "companies": [
+        { "name": "Apprisify", "logoUrl": "http://localhost:8083/logos/apprisify.webp" },
+        { "name": "KPMG", "logoUrl": "http://localhost:8083/logos/kpmg.svg" }
+      ]
     },
     {
       "num": 0,
       "companies": [
         { "name": "Deutsche Bank", "logoUrl": "http://localhost:8083/logos/deutsche-bank.svg" },
-        { "name": "Commerzbank", "logoUrl": "http://localhost:8083/logos/commerzbank.svg" },
-        { "name": "Merck", "logoUrl": "http://localhost:8083/logos/merck.svg" }
+        { "name": "Commerzbank", "logoUrl": "http://localhost:8083/logos/commerzbank.svg" }
       ]
     }
   ]
