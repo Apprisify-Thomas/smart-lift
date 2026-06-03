@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { FloorEvent } from '../../types';
 
 export default function EventsWidget({ events }: { events: FloorEvent[] }) {
-  const [currentIndex, setCurrentIndex] = useState(5);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
