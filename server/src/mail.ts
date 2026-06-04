@@ -6,17 +6,23 @@ const emailClient = new Mailjet({
   apiSecret: process.env.MJ_APIKEY_PRIVATE || '',
 });
 
-export async function makeScreenshot(): Promise<string> {
+export async function makeScreenshot(): Promise<string | undefined> {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto('http://localhost:8083', { waitUntil: 'networkidle0' });
-  page.setViewport({ width: 1080, height: 1980 });
+  try {
+    await page.goto(process.env.LIFT_UI_HOST || 'http://localhost:8083', {
+      waitUntil: 'networkidle0',
+    });
+    page.setViewport({ width: 1080, height: 1980 });
 
-  const screenshot = await page.screenshot({ encoding: 'base64' });
+    const screenshot = await page.screenshot({ encoding: 'base64' });
+    return screenshot;
+  } catch (e: any) {
+    console.log(e.message);
+  }
+
   await browser.close();
-
-  return screenshot;
 }
 
 export async function sendResponseEmail(
@@ -41,13 +47,16 @@ export async function sendResponseEmail(
 
   if (includeScreenshot) {
     const screenshot = await makeScreenshot();
-    emailData.Attachments = [
-      {
-        Filename: 'lift_ui_status.png',
-        Base64Content: screenshot,
-        ContentType: 'image/png',
-      },
-    ];
+
+    if (screenshot) {
+      emailData.Attachments = [
+        {
+          Filename: 'lift_ui_status.png',
+          Base64Content: screenshot,
+          ContentType: 'image/png',
+        },
+      ];
+    }
   }
 
   const request = emailClient.post('send', { version: 'v3.1' }).request({
