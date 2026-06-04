@@ -52,7 +52,7 @@ export async function askFloorManager(subject: string, action: string, userMailA
 
           For every action please provide a short feedback message in HTML that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". 
           Always provide a feedback message for every action and use the language of the user. Try to formulate as human-like as possible. Try to not use words like "removed", "added", "updated.
-          Please use a salutation with parts of the user email and add a closing line/sign-off. Newlines after the salutation and the message body.
+          Please use a salutation with parts of the user email and add a closing line/sign-off as "Lift Manager". Newlines after the salutation and the message body.
           `,
       },
       {

@@ -43,17 +43,12 @@ app.post('/', async (req, res) => {
   if (response.actions[0] && response.actions[0].type === 'REJECT') {
     await sendResponseEmail(
       body.From,
-      'Smart Lift / Action rejected',
+      'Smart Lift / Aktion abgelehnt',
       `${response.feedbackMessage}`,
       true
     );
   } else {
-    await sendResponseEmail(
-      body.From,
-      'Smart Lift / Action processed',
-      `${response.feedbackMessage}`,
-      true
-    );
+    await sendResponseEmail(body.From, 'Smart Lift / Aktion', `${response.feedbackMessage}`, true);
   }
 
   socket.sendAction({
