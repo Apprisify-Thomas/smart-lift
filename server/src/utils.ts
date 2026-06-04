@@ -33,7 +33,7 @@ export async function askFloorManager(subject: string, action: string, userMailA
             floorsData
           )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.
 
-          Important: Do not allow more than 4 companies on each floor. Answer with a single REJECT action if a user wants to exceed this limit. 
+          Important: Do not allow more than 4 companies on each floor. Answer with a single REJECT action if a user wants to exceed this limit by adding or moving new companies. 
           
           There are events going on in the building. Here is the current state of all events: ${JSON.stringify(eventsData)}
 
