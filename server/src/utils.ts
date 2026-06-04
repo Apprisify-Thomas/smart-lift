@@ -32,6 +32,8 @@ export async function askFloorManager(subject: string, action: string, userMailA
           Here is the current state of the building: ${JSON.stringify(
             floorsData
           )}. Try to be as precise as possible when identifying the company. If you are not sure if the user wants to change the image, ask them to clarify. Only change the image if they explicitly say so.
+
+          Important: Do not allow more than 4 companies on each floor. Answer with a single REJECT action if a user wants to exceed this limit. 
           
           There are events going on in the building. Here is the current state of all events: ${JSON.stringify(eventsData)}
 
@@ -53,8 +55,6 @@ export async function askFloorManager(subject: string, action: string, userMailA
           For every action please provide a short feedback message in HTML(please wrap everything in HTML Tags) that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". 
           Always provide a feedback message for every action and use the language of the user. Try to formulate as human-like as possible. Try to not use words like "removed", "added", "updated.
           Please use a salutation with parts of the user email and add a closing line/sign-off as "Lift Manager". Newlines after the salutation and the message body.
-          
-          Important: Do not allow more than 4 companies on each floor. If a user violates this rule respond only with a single REJECT Action. No more actions are allowed.
           `,
       },
       {
