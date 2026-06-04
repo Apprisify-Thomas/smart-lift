@@ -2,13 +2,19 @@
   "events": [
     {
       "title": "Liftfabrik Innovation Day",
-      "description": "Join us for the Liftfabrik Innovation Day on the 4th floor.",
-      "floor": 4
+      "description": "Join us for the Liftfabrik Innovation Day on the main floor.",
+      "floor": 0
     },
     {
       "title": "Apprisify Tech Talk",
       "description": "Join us for an engaging tech talk by Apprisify on the 1st floor.",
       "floor": 1
+    },
+    {
+      "title": "Siemens Conference",
+      "description": "Join us for an engaging conference by Siemens on the 4th floor.",
+      "floor": 4,
+      "imageUrl": "http://localhost:8083/events/siemens-conference.png"
     }
   ]
 }
