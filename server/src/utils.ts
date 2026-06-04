@@ -54,7 +54,7 @@ export async function askFloorManager(subject: string, action: string, userMailA
           Always provide a feedback message for every action and use the language of the user. Try to formulate as human-like as possible. Try to not use words like "removed", "added", "updated.
           Please use a salutation with parts of the user email and add a closing line/sign-off as "Lift Manager". Newlines after the salutation and the message body.
           
-          Important: Do not allow more than 4 companies on each floor. If a user violates this rule REJECT and respond with appropriate feedback.
+          Important: Do not allow more than 4 companies on each floor. If a user violates this rule respond only with a single REJECT Action. No more actions are allowed.
           `,
       },
       {
