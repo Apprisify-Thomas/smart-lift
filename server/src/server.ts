@@ -34,7 +34,7 @@ app.post('/', async (req, res) => {
     imageFile = await saveImage(attachments[0]);
   }
 
-  const response = await askFloorManager(body.Subject, body.TextBody);
+  const response = await askFloorManager(body.Subject, body.TextBody, body.From);
 
   console.dir(response, { depth: null });
 
@@ -44,14 +44,14 @@ app.post('/', async (req, res) => {
     await sendResponseEmail(
       body.From,
       'Smart Lift / Action rejected',
-      `<p>${response.feedbackMessage}</p>`,
+      `${response.feedbackMessage}`,
       true
     );
   } else {
     await sendResponseEmail(
       body.From,
       'Smart Lift / Action processed',
-      `<p>${response.feedbackMessage}</p>`,
+      `${response.feedbackMessage}`,
       true
     );
   }

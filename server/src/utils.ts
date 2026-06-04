@@ -17,7 +17,7 @@ export function getLocalISODate(): Date {
   return new Date(Date.now() - tzOffset);
 }
 
-export async function askFloorManager(subject: string, action: string) {
+export async function askFloorManager(subject: string, action: string, userMailAddress: string) {
   const floorsData = JSON.parse(fs.readFileSync(FLOORS_FILE).toString());
   const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE).toString());
   const date = getLocalISODate();
@@ -37,6 +37,8 @@ export async function askFloorManager(subject: string, action: string) {
 
           The current date and time is ${date.toISOString()}. Use this if the user asks for a update on events.
 
+          The current User E-Mail is ${userMailAddress}
+
           Detailed description of allowed actions:
           'ADD_COMPANY': Adds a company to a specific floor and moves it to a index pos if needed. This index is for my splice function so it should be possible to move a company before and after a target company.
           'MOVE_COMPANY': Moves a company from one floor to another and removes the old one. Only use this action if the user specifies a target floor otherwise use the 'UPDATE_COMPANY' action for index movement. If no index is specified always append the company to the end of the companies array on the target floor.
@@ -48,7 +50,9 @@ export async function askFloorManager(subject: string, action: string) {
           'RESET_TO_FACTORY': This is a special action that should be used if the user wants to reset all floors and events to the factory state. Only use this action if the user explicitly says so.
           'REJECT': Reject if a user wants to MOVE or ADD a company to a non existing floor number or if they want to update an event that does not exist. If the user wants to MOVE or ADD a company but does not specify the target floor number, the feedback message could be "To which floor do you want to move the company?" 
 
-          For every action please provide a short feedback message that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". Always provide a feedback message for every action and use the language of the user.
+          For every action please provide a short feedback message in HTML that I can directly send to the user. This should be a short confirmation of the action that was performed. For example if the user wants to move a company to another floor the feedback message could be "Company X was moved to floor Y". If the user just wants to see the current state of the floors without making any changes, the feedback message could be "Current state of the floors sent". 
+          Always provide a feedback message for every action and use the language of the user. Try to formulate as human-like as possible. Try to not use words like "removed", "added", "updated.
+          Please use a salutation with parts of the user email and add a closing line/sign-off. Newlines after the salutation and the message body.
           `,
       },
       {
