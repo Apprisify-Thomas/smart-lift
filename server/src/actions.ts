@@ -4,7 +4,7 @@ import { EVENTS_FACTORY_FILE, EVENTS_FILE, FLOORS_FACTORY_FILE, FLOORS_FILE } fr
 import fs from 'fs';
 import { FloorEventManager } from './FloorEventManager';
 
-export async function processActions(actions: FloorAction[], imageFile?: string) {
+export function processActions(actions: FloorAction[], imageFile?: string) {
   const floorManager = new FloorManager(FLOORS_FILE);
   const eventManager = new FloorEventManager(EVENTS_FILE);
 

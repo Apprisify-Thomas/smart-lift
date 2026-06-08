@@ -6,6 +6,7 @@ import { FileAttachment, MailBodyData } from './types';
 import { processActions } from './actions';
 import { LiftSocket } from './LiftSocket';
 import { sendResponseEmail } from './mail';
+import cron from 'node-cron';
 
 const app = express();
 app.use(cors());
@@ -38,7 +39,7 @@ app.post('/', async (req, res) => {
 
   console.dir(response, { depth: null });
 
-  await processActions(response.actions, imageFile);
+  processActions(response.actions, imageFile);
 
   socket.sendAction({
     type: 'email:processed',
@@ -68,3 +69,10 @@ app.listen(8083, () => console.log('Server listening on port 8083'));
 setInterval(() => {
   socket.sendEventsUpdate();
 }, 30000);
+
+// Reset to factory settings every day at 00:00
+cron.schedule('0 0 * * *', () => {
+  processActions([{ type: 'RESET_TO_FACTORY' }]);
+  socket.sendUpdate();
+  console.log('Reset to factory settings');
+});
